@@ -7,6 +7,10 @@ Be sure to:
 * Change the title in this README
 * Edit your repository description on GitHub
 
+## Notebooks
+
+Time Series Blog Post
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
