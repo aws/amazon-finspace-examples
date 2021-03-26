@@ -24,12 +24,14 @@ class FinSpace:
            dev_overrides = {'hfs_endpoint': 'https://39g32x40jk.execute-api.us-east-1.amazonaws.com/alpha'})`
         """
         self.hfs_endpoint = None
+        self.region_name  = None
         
-        if 'hfs_endpoint' in dev_overrides:
-             self.hfs_endpoint = dev_overrides['hfs_endpoint']
+        if dev_overrides is not None:
+            if 'hfs_endpoint' in dev_overrides:
+                 self.hfs_endpoint = dev_overrides['hfs_endpoint']
 
-        if 'region_name' in dev_overrides:
-            self.region_name = dev_overrides['region_name']
+            if 'region_name' in dev_overrides:
+                self.region_name = dev_overrides['region_name']
         else:
             self.region_name = self.get_region_name() 
         
