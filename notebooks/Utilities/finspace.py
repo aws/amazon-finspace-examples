@@ -83,7 +83,7 @@ class FinSpace:
 
         :return: all classifications
         """
-        all_list = self.client.list_classifications()
+        all_list = self.client.list_classifications(sort='NAME')
  
         return ( self.get_list(all_list, 'classifications') )
 
