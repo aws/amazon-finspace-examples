@@ -3,7 +3,7 @@ This repository contains example notebooks and python scripts that show how to w
 
 ## Examples
 
-### Notebooks: Inside FinSpace
+### Notebooks: Inside Amazon FinSpace
 
 These notebooks are intended to be run from the FinSpace managed notebook environment.
 
@@ -12,10 +12,10 @@ These notebooks are intended to be run from the FinSpace managed notebook enviro
 - [Collect Timebars and Summarize](amazon-finspace-examples/notebooks/collect_timebars_and_summarize/) demonstrates how to create a summary time bar dataset and add it to FinSpace.  
 - [Compute and Plot Volatility from TAQ](amazon-finspace-examples/notebooks/compute_and_plot_volatility_from_taq/) demonstrates how to compute and plot valatility using the finSpace Time Series Library.  
 - [Exploring FinSpace APIs](amazon-finspace-examples/notebooks/exploring_finspace_apis/) demonstration of common FinSpace APIs calls you will use when analyzing data within notebooks in FinSpace.  
-- [Working in FinSpace](amazon-finspace-examples/notebooks/WorkingInFinSpace/) how to get and use your scratch space within finSpace. 
+- [Working in FinSpace](amazon-finspace-examples/notebooks/WorkingInFinSpace/) how to get and use your scratch space within FinSpace. 
 - [Technical Indicators](amazon-finspace-examples/notebooks/technical_indicators/) Demonstration of creating a DataFrame that uses all the FinSpace technical indicators. 
 
-### Notebooks: Outside FinSpace
+### Notebooks: Outside Amazon FinSpace
 
 These notebooks are intended to be run from outside of FinSpace. 
 
