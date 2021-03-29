@@ -26,7 +26,7 @@ class FinSpace:
         self.hfs_endpoint = None
         self.region_name  = None
         
-        if dev_overrides is not None:
+        if dev_overrides != None:
             if 'hfs_endpoint' in dev_overrides:
                  self.hfs_endpoint = dev_overrides['hfs_endpoint']
 
@@ -488,10 +488,9 @@ class FinSpace:
         """
         while True:
             list_views_resp = self.client.list_materialization_snapshots(datasetId=dataset_id, maxResults=100)
-            # TODO: fix is not to is below
             matched_views = list(filter(lambda d: d['id'] == view_id, list_views_resp['materializationSnapshots']))
 
-            if len(matched_views) is not 1:
+            if len(matched_views) != 1:
                 size = len(matched_views)
                 raise Exception(f"Unexpected error: found {size} views that match the view Id: {view_id}")
 
@@ -507,11 +506,11 @@ class FinSpace:
                 raise Exception(f"Bad view status: {status}, failing now.")
 
     def list_changesets(self, dataset_id: str):
-        resp = self.client.list_changesets(datasetId=dataset_id)
+        resp = self.client.list_changesets(datasetId=dataset_id, sortKey='CREATE_TIMESTAMP')
         results = resp['changesets']
 
         while "nextToken" in resp:
-            resp = self.client.list_changesets(datasetId=dataset_id, nextToken=resp['nextToken'])
+            resp = self.client.list_changesets(datasetId=dataset_id, sortKey='CREATE_TIMESTAMP', nextToken=resp['nextToken'])
             results.extend(resp['changesets'])
 
         return( results )
@@ -531,11 +530,11 @@ class FinSpace:
         return ( self.get_list( all_datasets, 'datasets') )
     
     def list_dataset_types(self):
-        resp = self.client.list_dataset_types()
+        resp = self.client.list_dataset_types(sort='NAME')
         results = resp['datasetTypeSummaries']
 
         while "nextToken" in resp:
-            resp = self.client.list_dataset_types(nextToken=resp['nextToken'])
+            resp = self.client.list_dataset_types(sort='NAME', nextToken=resp['nextToken'])
             results.extend(resp['datasetTypeSummaries'])
 
         return( results )
