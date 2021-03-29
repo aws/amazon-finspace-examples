@@ -33,7 +33,7 @@ These notebooks are intended to be run from outside of FinSpace, communicating w
 
 *How do I contribute my own example notebook?*
 
-- Although we're extremely excited to receive contributions from the community, we're still working on the best mechanism to take in examples from external sources.  Please bear with us in the short-term if pull requests take longer than expected or are closed.
+- Although we're extremely excited to receive contributions from the community, we're still working on the best mechanism to take in examples from external sources.  Please bare with us in the short-term if pull requests take longer than expected or are closed.
 
 ## License
 
