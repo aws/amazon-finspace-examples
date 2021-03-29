@@ -24,7 +24,7 @@ These notebooks are intended to be run from outside of FinSpace.
 
 ### Python: Helper Code
 
-- [Utility Classes](amazon-finspace-examples/notebooks/Utilities/) that are used on the notebooks that facilitate the use of the inSpace boto3 APIs.  
+- [Utility Classes](amazon-finspace-examples/notebooks/Utilities/) that are used on the notebooks that facilitate the use of the FinSpace APIs.  
 
 ### Notebooks: Outside FinSpace
 These notebooks are intended to be run from outside of FinSpace, communicating with the FinSpace service using the FinSpace APIs.
