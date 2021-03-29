@@ -18,7 +18,6 @@ These notebooks are intended to be run from the FinSpace managed notebook enviro
 
 These notebooks are intended to be run from outside of FinSpace. 
 
-- [Putting Data into FinSpace](notebooks/putting_data_into_finspace/) shows how to use the FinSpace APIs to create and populate a dataset. 
 - [Exploring FinSpace APIs](notebooks/exploring_finspace_apis/) demonstrates common FinSpace APIs calls you will use when analyzing data within FinSpace notebooks.  
 - [Remote Cluster Management](notebooks/remote_cluster_management/) shows how to use the cluster management APIs from outside of FinSpace.
 
