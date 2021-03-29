@@ -7,11 +7,24 @@ This repository contains example notebooks and python scripts that show how to w
 
 These notebooks are intended to be run from the FinSpace managed notebook environment.
 
-- [Analyzing petabytes of trade and quote data with Amazon FinSpace](amazon-finspace-examples/notebooks/Analyzing%20petabytes%20of%20trade%20and%20quote%20data%20with%20Amazon%20FinSpace) shows how to use the FinSpace Time Series Library.  
-- [Cluster Management](amazon-finspace-examples/notebooks/Cluster%20Management).  
-- [Collect Timebars and Summarize](amazon-finspace-examples/notebooks/Collect%20Timebars%20and%20Summarize/).  
-- [Compute and Plot Volatility from TAQ](amazon-finspace-examples/notebooks/Compute%20and%20Plot%20Volatility%20from%20TAQ).  
-- [Exploring FinSpace APIs](amazon-finspace-examples/notebooks/Exploring FinSpace APIs/)
+- [Analyzing petabytes of trade and quote data with Amazon FinSpace](amazon-finspace-examples/notebooks/analyze_trade_and_quote_data/) shows how to use the FinSpace Time Series Library.  
+- [Cluster Management](amazon-finspace-examples/notebooks/cluster_management/).  
+- [Collect Timebars and Summarize](amazon-finspace-examples/notebooks/collect_timebars_and_summarize/).  
+- [Compute and Plot Volatility from TAQ](amazon-finspace-examples/notebooks/compute_and_plot_volatility_from_taq/).  
+- [Exploring FinSpace APIs](amazon-finspace-examples/notebooks/exploring_finspace_apis/).  
+- [Working in FinSpace](amazon-finspace-examples/notebooks/WorkingInFinSpace/). 
+- [Technical INdicators](amazon-finspace-examples/notebooks/technical_indicators/). 
+
+### Notebooks: Outside FinSpace
+
+These notebooks are intended to be run from outside of FinSpace. 
+
+- [Putting Data into FinSpace](amazon-finspace-examples/notebooks/putting_data_into_finspace/). 
+- [Remote Cluster Management](amazon-finspace-examples/notebooks/remote_cluster_management/)
+
+### Python: Helper Code
+
+- [Utility Classes](amazon-finspace-examples/notebooks/Utilities/) that are used on the notebooks that facilitate the use of the inSpace boto3 APIs.  
 
 ### Notebooks: Outside FinSpace
 These notebooks are intended to be run from outside of FinSpace, communicating with the FinSpace service using the FinSpace APIs.
