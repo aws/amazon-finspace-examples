@@ -11,7 +11,6 @@ These notebooks are intended to be run from the FinSpace managed notebook enviro
 - [Cluster Management](amazon-finspace-examples/notebooks/cluster_management/) demonstrates using the cluster management APIs from within a  notebook.  
 - [Collect Timebars and Summarize](amazon-finspace-examples/notebooks/collect_timebars_and_summarize/) demonstrates how to create a summary time-bar dataset and add it to FinSpace.  
 - [Compute and Plot Volatility from TAQ](amazon-finspace-examples/notebooks/compute_and_plot_volatility_from_taq/) demonstrates how to compute and plot valatility using the FinSpace Time Series Libraries.  
-- [Exploring FinSpace APIs](amazon-finspace-examples/notebooks/exploring_finspace_apis/) demonstrates common FinSpace APIs calls you will use when analyzing data within FinSpace notebooks.  
 - [Working in FinSpace](amazon-finspace-examples/notebooks/WorkingInFinSpace/) how to get and use your scratch space within FinSpace. 
 - [Technical Indicators](amazon-finspace-examples/notebooks/technical_indicators/) demonstrates the creation of a Spark DataFrame that uses all of the FinSpace technical indicators. 
 
@@ -20,6 +19,7 @@ These notebooks are intended to be run from the FinSpace managed notebook enviro
 These notebooks are intended to be run from outside of FinSpace. 
 
 - [Putting Data into FinSpace](amazon-finspace-examples/notebooks/putting_data_into_finspace/) shows how to use the FinSpace APIs to create and populate a dataset. 
+- [Exploring FinSpace APIs](amazon-finspace-examples/notebooks/exploring_finspace_apis/) demonstrates common FinSpace APIs calls you will use when analyzing data within FinSpace notebooks.  
 - [Remote Cluster Management](amazon-finspace-examples/notebooks/remote_cluster_management/) shows how to use the cluster management APIs from outside of FinSpace.
 
 ### Python: Helper Code
