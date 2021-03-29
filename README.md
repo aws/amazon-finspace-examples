@@ -11,7 +11,7 @@ These notebooks are intended to be run from the FinSpace managed notebook enviro
 - [Cluster Management](amazon-finspace-examples/notebooks/cluster_management/) demonstrates using the cluster management APIs from within a  notebook.  
 - [Collect Timebars and Summarize](amazon-finspace-examples/notebooks/collect_timebars_and_summarize/) demonstrates how to create a summary time-bar dataset and add it to FinSpace.  
 - [Compute and Plot Volatility from TAQ](amazon-finspace-examples/notebooks/compute_and_plot_volatility_from_taq/) demonstrates how to compute and plot valatility using the FinSpace Time Series Libraries.  
-- [Working in FinSpace](amazon-finspace-examples/notebooks/WorkingInFinSpace/) how to get and use your scratch space within FinSpace. 
+- [Working in FinSpace](amazon-finspace-examples/notebooks/working_in_finspace/) how to get and use your scratch space within FinSpace. 
 - [Technical Indicators](amazon-finspace-examples/notebooks/technical_indicators/) demonstrates the creation of a Spark DataFrame that uses all of the FinSpace technical indicators. 
 
 ### Notebooks: Outside Amazon FinSpace
