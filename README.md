@@ -4,7 +4,14 @@ This repository contains example notebooks and python scripts that show how to w
 ## Examples
 
 ### Notebooks: Inside FinSpace
+
 These notebooks are intended to be run from the FinSpace managed notebook environment.
+
+- [Analyzing petabytes of trade and quote data with Amazon FinSpace](amazon-finspace-examples/notebooks/Analyzing%20petabytes%20of%20trade%20and%20quote%20data%20with%20Amazon%20FinSpace) shows how to use the FinSpace Time Series Library.  
+- [Cluster Management](amazon-finspace-examples/notebooks/Cluster%20Management).  
+- [Collect Timebars and Summarize](amazon-finspace-examples/notebooks/Collect%20Timebars%20and%20Summarize/).  
+- [Compute and Plot Volatility from TAQ](amazon-finspace-examples/notebooks/Compute%20and%20Plot%20Volatility%20from%20TAQ).  
+- [Exploring FinSpace APIs](amazon-finspace-examples/notebooks/Exploring FinSpace APIs/)
 
 ### Notebooks: Outside FinSpace
 These notebooks are intended to be run from outside of FinSpace, communicating with the FinSpace service using the FinSpace APIs.
