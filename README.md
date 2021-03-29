@@ -5,7 +5,7 @@ This repository contains example notebooks and python scripts that show how to w
 
 ### Notebooks: Inside Amazon FinSpace
 
-These notebooks are intended to be run from the FinSpace managed notebook environment.
+These notebooks are intended to be run from the FinSpace managed notebook environment. Notebooks will reference a dataset (and others a permission group as well) found in FinSpace, be sure you have entered the empty identifiers for dataset_id, view_id, and basicPermissionGroupId found in your environment installation. All example notebooks assume that the Capital Markets Sample Data bundle was installed with the FinSpace environment. Some example notebooks make use of Utility classes found in the Utilities folder (e.g. finspace.py and finspace_spak.py) be sure to have run the '%load' for the python files twice, first to load the file contents into the notebook, and a second time to ensure the code is run and pushed onto your Spark cluster.
 
 - [Analyzing petabytes of trade and quote data with Amazon FinSpace](notebooks/analyze_trade_and_quote_data/) shows how to use the FinSpace Time Series Library.  
 - [Cluster Management](notebooks/cluster_management/) demonstrates using the cluster management APIs from within a  notebook.  
