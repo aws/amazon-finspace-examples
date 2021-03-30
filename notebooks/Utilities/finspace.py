@@ -7,6 +7,7 @@ import urllib
 
 from urllib.parse import urlparse
 from botocore.config import Config
+from boto3.session import Session
 
 # Base FinSpace class
 class FinSpace:
@@ -14,7 +15,7 @@ class FinSpace:
     def __init__(
         self,
         config = Config(retries = {'max_attempts': 0, 'mode': 'standard'}),
-        boto_session: dict = None,
+        boto_session: Session = None,
         dev_overrides: dict = None
     ):
         """
