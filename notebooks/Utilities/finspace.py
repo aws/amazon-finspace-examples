@@ -805,7 +805,7 @@ class FinSpace:
         :return dict: list of clusters
         """
         
-        resp = finspace.client.list_clusters()
+        resp = self.client.list_clusters()
 
         clusters = []
         
@@ -825,14 +825,14 @@ class FinSpace:
         """
         Resize the given cluster to desired template
         
-        :param cid: cluster id
+        :param clusterId: cluster id
         :param template: target template to resize to
         """
 
         clusters = self.list_clusters()
         
         for c in clusters:
-            if c['clusterId'] == cid:
+            if c['clusterId'] == clusterId:
                 return( c )
             
         return( None )
@@ -851,7 +851,7 @@ class FinSpace:
             print(f"Already using template: {template}")
             return( cluster )
         
-        self.client.update_cluster(clusterId=cid, template=template)
+        self.client.update_cluster(clusterId=clusterId, template=template)
         
         return( self.get_cluster(clusterId = clusterId) )
         
@@ -873,11 +873,11 @@ class FinSpace:
             
             # is this the cluster?
             for c in resp['clusters']:
-                if cid == c['clusterId']:
+                if clusterId == c['clusterId']:
                     this_cluster = c
 
             if this_cluster is None:
-                print(f"clusterId:{cid} not found")
+                print(f"clusterId:{clusterId} not found")
                 return( None )
             
             this_status = this_cluster['clusterStatus']['state']
