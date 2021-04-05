@@ -29,7 +29,7 @@ class SparkFinSpace(FinSpace):
         
         print("Data upload finished. Ingesting data...")
         
-        return self.ingest_from_s3(upload_location, dataset_id, change_type, wait_for_completion, format_type='parquet')
+        return self.ingest_from_s3(upload_location, dataset_id, change_type, wait_for_completion, format_type='parquet', format_params={})
     
     def read_view_as_spark(
         self,
