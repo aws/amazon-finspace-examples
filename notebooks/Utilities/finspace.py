@@ -27,14 +27,17 @@ class FinSpace:
         self.hfs_endpoint = None
         self.region_name  = None
         
-        if dev_overrides != None:
+        if dev_overrides is not None:
             if 'hfs_endpoint' in dev_overrides:
-                 self.hfs_endpoint = dev_overrides['hfs_endpoint']
+                self.hfs_endpoint = dev_overrides['hfs_endpoint']
 
             if 'region_name' in dev_overrides:
                 self.region_name = dev_overrides['region_name']
         else:
-            self.region_name = self.get_region_name() 
+            if boto_session is not None:
+                self.region_name = boto_session.region_name
+            else:
+                self.region_name = self.get_region_name()
         
         self.config = config
         
