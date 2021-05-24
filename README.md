@@ -13,6 +13,7 @@ These notebooks are intended to be run from the FinSpace managed notebook enviro
 - [Compute and Plot Volatility from TAQ](notebooks/compute_and_plot_volatility_from_taq/) demonstrates how to compute and plot valatility using the FinSpace Time Series Libraries.  
 - [Working in FinSpace](notebooks/working_in_finspace/) how to get and use your scratch space within FinSpace. 
 - [Technical Indicators](notebooks/technical_indicators/) demonstrates the creation of a Spark DataFrame that uses all of the FinSpace technical indicators. 
+- [S3 Import](notebooks/s3_import) shows how to import data from an external (to FinSpace) S3 bucket into a FinSpace dataset
 
 ### Notebooks: Outside Amazon FinSpace
 
@@ -20,7 +21,6 @@ These notebooks are intended to be run from outside of FinSpace.
 
 - [Exploring FinSpace APIs](notebooks/exploring_finspace_apis/) demonstrates common FinSpace APIs calls you will use when analyzing data within FinSpace notebooks.  
 - [Remote Cluster Management](notebooks/remote_cluster_management/) shows how to use the cluster management APIs from outside of FinSpace.
-- [S3 Import](notebooks/s3_import) shows how to import data from an external (to FinSpace) S3 bucket into a FinSpace dataset
 
 ### Python: Helper Code
 
