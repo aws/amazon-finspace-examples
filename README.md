@@ -14,6 +14,7 @@ These notebooks are intended to be run from the FinSpace managed notebook enviro
 - [Working in FinSpace](notebooks/working_in_finspace/) how to get and use your scratch space within FinSpace. 
 - [Technical Indicators](notebooks/technical_indicators/) demonstrates the creation of a Spark DataFrame that uses all of the FinSpace technical indicators. 
 - [S3 Import](notebooks/s3_import) shows how to import data from an external (to FinSpace) S3 bucket into a FinSpace dataset
+- [Using Third Party APIs](notebooks/third_party_apis) shows how you can install and use third party APIs from FinSpace
 
 ### Notebooks: Outside Amazon FinSpace
 
