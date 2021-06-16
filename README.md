@@ -15,6 +15,7 @@ These notebooks are intended to be run from the FinSpace managed notebook enviro
 - [Technical Indicators](notebooks/technical_indicators/) demonstrates the creation of a Spark DataFrame that uses all of the FinSpace technical indicators. 
 - [S3 Import](notebooks/s3_import) shows how to import data from an external (to FinSpace) S3 bucket into a FinSpace dataset
 - [Using Third Party APIs](notebooks/third_party_apis) shows how you can install and use third party APIs from FinSpace
+- [Custom Calendars](notebooks/custom_calendar) shows how you can create a custom calendar for the time series fill and filter stage
 
 ### Notebooks: Outside Amazon FinSpace
 
