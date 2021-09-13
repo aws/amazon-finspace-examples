@@ -31,7 +31,7 @@ These notebooks are intended to be run from outside FinSpace.
 - [Utility Classes](notebooks/Utilities) that are used on the notebooks that facilitate the use of the FinSpace APIs.  
 
 ## Blogs
-[Analyze daily trading activity using transaction data from Amazon Redshift in Amazon FinSpace](blogs/finspace_redshift-2021-09)
+[Analyze daily trading activity using transaction data from Amazon Redshift in Amazon FinSpace](blogs/finspace_redshift-2021-09)   
 How to connect Amazon FinSpace to a Redshift cluster, import tables into FinSpace datasets, and pull data in tables from
 Redshift directly into Spark DataFrames.
 
