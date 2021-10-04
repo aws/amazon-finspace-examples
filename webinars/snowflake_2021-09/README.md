@@ -35,6 +35,7 @@ Code artifacts from the demonstration given at the summit
 
 ### Notebooks
 [Delete Datasets](delete_datasets.ipynb) Deletes all datasets with a given classification (Source) and value (Snowflake)  
+[Snowflake Datasets](snowflake_datasets.ipynb) Shows how to search for and display datasets in FinSpace that reside in Snowflake  
 [Snowflake Import](snowflake_import.ipynb) Notebook that creates a FinSpace dataset for each table in the given snowflake table  
 [Plot Volatility](plot-volatility-snowflake.ipynb) Notebook to plot volatility then add and plots events over the volatility plot, presented in session  
 
