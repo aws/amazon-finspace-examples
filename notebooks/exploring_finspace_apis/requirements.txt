@@ -6,7 +6,7 @@ async-generator==1.10
 attrs==20.3.0
 awscli==1.19.19
 awswrangler==2.6.0
-Babel==2.9.0
+Babel==2.9.1
 backcall==0.2.0
 beautifulsoup4==4.7.1
 bleach==3.3.0
