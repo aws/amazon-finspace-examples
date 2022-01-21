@@ -23,7 +23,7 @@ entrypoints==0.3
 et-xmlfile==1.0.1
 idna==2.10
 ipykernel==5.5.2
-ipython==7.22.0
+ipython==7.31.1
 ipython-genutils==0.2.0
 jedi==0.18.0
 Jinja2==2.11.3
