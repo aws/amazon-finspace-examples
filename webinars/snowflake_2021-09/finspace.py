@@ -232,6 +232,10 @@ class FinSpace:
         return True
 
     def associate_attribute_set(self, att_name: str, att_values: list, dataset_id: str):
+        fncs = ['dissociate_dataset_from_attribute_set', 'associate_dataset_with_attribute_set', 'update_dataset_attribute_set_context']
+        if self.check_functions(fncs) is False:
+            raise Exception(f"not all functions found in client {fncs}")
+
         # get the attribute set by name, will need its id
         att_set = self.attribute_set(att_name)
 
@@ -240,17 +244,23 @@ class FinSpace:
 
         # disassociate any existing relationship
         try:
-            self.client.dissociate_dataset_from_dataset_type(datasetArn=dataset['arn'],
-                                                                       datasetTypeId=att_set['id'])
+            self.client.dissociate_dataset_from_attribute_set(datasetArn=dataset['arn'],
+                                                             datasetTypeId=att_set['id'])
         except:
             print("Nothing to disassociate")
 
-        self.client.associate_dataset_with_dataset_type(datasetArn=dataset['arn'], datasetTypeId=att_set['id'])
+        arn = dataset['arn']
+        dataset_type_id = att_set['id']
 
-        ret = self.client.update_dataset_type_context(datasetArn=dataset['arn'], datasetTypeId=att_set['id'],
-                                                          values=att_values)
-        return ret
+        self.client.associate_dataset_with_attribute_set(datasetId=dataset_id, datasetArn=arn, attributeSetId=dataset_type_id)
 
+        resp = self.client.update_dataset_attribute_set_context(datasetId=dataset_id, datasetArn=arn, attributeSetId=dataset_type_id, values=att_values)
+
+        if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+            return resp
+
+        return True
+    
     # --------------------------------------
     # Permission Group Functions
     # --------------------------------------
