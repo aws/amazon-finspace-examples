@@ -152,7 +152,7 @@ mkl-fft==1.3.1
 mkl-random @ file:///tmp/build/80754af9/mkl_random_1626186066731/work
 mkl-service==2.4.0
 mock @ file:///tmp/build/80754af9/mock_1607622725907/work
-mpmath==1.2.1
+mpmath==1.3.0
 msgpack @ file:///tmp/build/80754af9/msgpack-python_1612287166301/work
 multidict @ file:///opt/conda/conda-bld/multidict_1640703752579/work
 multipledispatch @ file:///tmp/build/80754af9/multipledispatch_1607574243360/work
