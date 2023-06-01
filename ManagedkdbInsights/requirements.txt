@@ -38,7 +38,7 @@ botocore @ file:///home/ec2-user/25/botocore-1.29.142-py3-none-any.whl#sha256=5d
 Bottleneck @ file:///tmp/build/80754af9/bottleneck_1648028898966/work
 brotlipy==0.7.0
 cachetools @ file:///tmp/build/80754af9/cachetools_1619597386817/work
-certifi==2021.10.8
+certifi==2022.12.7
 cffi @ file:///opt/conda/conda-bld/cffi_1642701102775/work
 chardet @ file:///tmp/build/80754af9/chardet_1607706775000/work
 charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
