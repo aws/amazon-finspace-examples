@@ -6,22 +6,28 @@
 
 The parent directory contains common python scripts and symlinks to aws environment files (config and credentials). 
 
+## Directions
+- Copy env-example.py to a new file, ex: env.py 
+- Replace the values found in the py files with values of your environment 
+  - Your AWS Account ID for ACCOUNT_ID
+  - Your FinSpace Managed kdb Insights Envirinment ID for ENV_ID
+  - Your VPC ID for VPC_ID
+- Do above at the "ManagedkdbInsights" folder level
+- Sym link the env.py file into sub-directories, such as boto and basic_tick
+- Modify notebooks to import the env.py file
+  - with symlink, the file will be 'local' to the notebook
+
 # Appendix
 
-## requirements.txt
+## Update requirements.txt
+Generating an updated requirements.txt file.
+
 ```
 pip freeze > ~/ManagedKdbInsights/requirements.txt
 ```
 
-## tarball creation
-```
-cd ~/
-pip freeze > ~/ManagedKdbInsights/requirements.txt
-tar --exclude="*.ipynb_checkpoints*" --exclude="*__pycache__*" -czvf ~/ManagedKdbInsights.tar.gz ManagedKdbInsights 
-```
-
-## zip creations
-REMEMBER, the zip knows the paths, the filename does not determine the directories!  
+## zip creation
+REMEMBER, the zip knows the paths, the filefile's filename dwill determine the directories created when unzipped.
 
 ```
 zip -r -X code.zip code -x '*.ipynb_checkpoints*'
