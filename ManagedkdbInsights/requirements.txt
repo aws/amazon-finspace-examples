@@ -195,7 +195,7 @@ poyo @ file:///tmp/build/80754af9/poyo_1617751526755/work
 prometheus-client @ file:///opt/conda/conda-bld/prometheus_client_1643788673601/work
 prompt-toolkit @ file:///tmp/build/80754af9/prompt-toolkit_1633440160888/work
 Protego @ file:///tmp/build/80754af9/protego_1598657180827/work
-protobuf==3.19.1
+protobuf==3.19.5
 psutil @ file:///tmp/build/80754af9/psutil_1612297992929/work
 ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
 pure-eval @ file:///opt/conda/conda-bld/pure_eval_1646925070566/work
