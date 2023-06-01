@@ -383,4 +383,20 @@ def dump_database(client, environmentId, db_name, changset_details=False):
         print()
     else:
         display( pd.DataFrame.from_dict(c_set_list) )
-            
+
+        
+def get_pykx_connection(client, environmentId: str, clusterName: str, userName: str, boto_session, endpoint_url: str=None):
+    import pykx as kx
+
+    conn_str = get_kx_connection_string(client, 
+                                      environmentId=environmentId, clusterName=clusterName, userName=userName,
+                                      boto_session=boto_session, endpoint_url=endpoint_url)
+
+    conn_parts = conn_str.split(":")
+
+    host=conn_parts[2].strip("/")
+    port = int(conn_parts[3])
+    username=conn_parts[4]
+    password=conn_parts[5]
+
+    return kx.QConnection(host=host, port=port, username=username, password=password, tls=True)

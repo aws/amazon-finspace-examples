@@ -2,7 +2,10 @@
 
 # Architectures
 ## Reference Archtecture
+<img src="Apricot_Use_Cases_KX_Architecture.png"  width="50%">
+
 ## Managed kdb Insights Archtecture
+<img src="Apricot_Use_Cases_GA_Architecture.png"  width="50%">
 
 # Implementation Outline
 1. Create database
