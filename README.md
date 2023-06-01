@@ -1,28 +1,16 @@
-# Amazon FinSpace Examples. 
-This repository contains example notebooks and python scripts that show how to work with [Amazon FinSpace](https://aws.amazon.com/finspace/).
+# Amazon FinSpace Examples
+This repository contains examples that show how to work with [Amazon FinSpace](https://aws.amazon.com/finspace/). Amazon FinSpace is comprised of [Managed kdb Insights](https://aws.amazon.com/finspace/features/managed-kdb-insights/) and the [Dataset Browser](https://aws.amazon.com/finspace/features/dataset-browser/)
 
-## Examples
+## Managed kdb Insights
+These are example projects using FinSpace with Managed kdb Insights. Refer to each project README.
 
-### Notebooks: Inside Amazon FinSpace  
-These notebooks are intended to be run from the FinSpace managed notebook environment. 
-Notebooks will reference a dataset (and others a permission group as well) found in FinSpace, 
-be sure you have entered the empty identifiers for dataset_id, view_id, and basicPermissionGroupId found in your 
-environment installation. All example notebooks assume that the Capital Markets Sample Data bundle was installed 
-with the FinSpace environment. Some example notebooks make use of Utility classes found in the Utilities folder 
-(e.g. finspace.py and finspace_spak.py) be sure to have run the '%load' for the python files twice, first to load 
-the file contents into the notebook, and a second time to ensure the code is run and pushed onto your Spark cluster.  
+- [AWS Boto Examples](ManagedkdbInsights/boto)
+- [Reference Architecture](ManagedkdbInsights/basic_tick)
 
-- [Analyzing petabytes of trade and quote data with Amazon FinSpace](notebooks/analyze_trade_and_quote_data) shows how to use the FinSpace Time Series Library.  
-- [Cluster Management](notebooks/cluster_management) demonstrates using the cluster management APIs from within a  notebook.  
-- [Collect Timebars and Summarize](notebooks/collect_timebars_and_summarize) demonstrates how to create a summary time-bar dataset and add it to FinSpace.  
-- [Compute and Plot Volatility from TAQ](notebooks/compute_and_plot_volatility_from_taq) demonstrates how to compute and plot volatility using the FinSpace Time Series Libraries.  
-- [Technical Indicators](notebooks/technical_indicators) demonstrates the creation of a Spark DataFrame that uses all the FinSpace technical indicators. 
-- [S3 Import](notebooks/s3_import) shows how to import data from an external (to FinSpace) S3 bucket into a FinSpace dataset
-- [Using Third Party APIs](notebooks/third_party_apis) shows how you can install and use third party APIs from FinSpace
-- [Custom Calendars](notebooks/custom_calendar) shows how you can create a custom calendar for the time series fill and filter stage
+## Dataset Browser
+Example notebooks using the dataset browser.
 
-### Python: Helper Code  
-- [Utility Classes](notebooks/Utilities) facilitates the use of the FinSpace APIs.  
+- [Dataset Browser Notebooks](DatasetBrowser)
 
 ## Blogs
 [Analyze daily trading activity using transaction data from Amazon Redshift in Amazon FinSpace](blogs/finspace_redshift-2021-09)   
@@ -35,7 +23,7 @@ Notebooks used to demonstrate integration of Snowflake tables with Amazon FinSpa
 Services Summit Sept 14, 2021: [Making Financial Data More Accessible in the Cloud](https://www.snowflake.com/financial-services-data-summit/americas/agenda/?agendaPath=session/615483)
 
 ## FAQ
-*How do I contribute my own example notebook?*  
+*How do I contribute my own examples?*  
 
 - Although we're extremely excited to receive contributions from the community, we're still working on the best mechanism to take in examples from external sources.  Please bare with us in the short-term if pull requests take longer than expected or are closed.
 
