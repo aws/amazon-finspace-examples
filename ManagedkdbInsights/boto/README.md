@@ -4,7 +4,7 @@ Collection of notebooks to demonstrate uses of the FinSpace AWS CLI and Boto lib
 ## Setup
 - Parent directory python scripts are symlinked to this directory and then referenced directly in notebooks
 - env*.py files contain environemnt specific variables such as ENV_ID, and auth credentials
-- 
+
 
 ## Notebooks
 
