@@ -4,16 +4,16 @@
 ## Reference Archtecture
 <img src="Managed kdb Insights-HDB Migration.png"  width="50%">
 
-## Managed kdb Insights Archtecture
+## Managed kdb Insights Architecture
 <img src="Managed kdb Insights-GA Architecture.png"  width="50%">
 
 # Implementation Outline
 1. Create database
-2. Start TP on EC2
-3. Start Feed on EC2 
-4. Create HDB (deploy zip) with init script
-5. Create RDB (deploy zip) with init script
-6. Start GW, tell where to find RDB and HDB (connection strings)
+2. Start Ticker Plant (TP) on EC2
+3. Start Feed Handler (FH) on EC2 
+4. Create Historic Database (HDB) (deploy zip) with init script
+5. Create Realtime Database (RDB) (deploy zip) with init script
+6. Start Gateway (GW), tell where to find RDB and HDB (connection strings)
 7. EOD Processing
 
 ## 1. Create Database
@@ -45,7 +45,7 @@ sym time number
 ---------------
 ```
 
-## 3. Start Feed on EC2
+## 3. Start FH on EC2
 Start a feed handler on an EC2. must pass the host:port of the running TP when starting the feedhandler.
 
 **From Terminal**
