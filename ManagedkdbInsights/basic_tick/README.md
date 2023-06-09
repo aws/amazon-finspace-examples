@@ -1,36 +1,39 @@
 # Setup of Basic Tick on Managed kdb Insights
+This project demonstrates an implementation of a basic market data tick architecture using FinSpace Managed kdb Insights. 
 
 # Architectures
 ## Reference Archtecture
 <img src="Managed kdb Insights-HDB Migration.png"  width="50%">
 
-## Managed kdb Insights Archtecture
+## Managed kdb Insights Archecture
 <img src="Managed kdb Insights-GA Architecture.png"  width="50%">
 
 # Implementation Outline
 1. Create database
-2. Start TP on EC2
-3. Start Feed on EC2 
-4. Create HDB (deploy zip) with init script
-5. Create RDB (deploy zip) with init script
-6. Start GW, tell where to find RDB and HDB (connection strings)
-7. EOD Processing
+2. Start Ticker Plant (TP) on EC2
+3. Start Feed Handler (FH) on EC2 
+4. Create Historical Database (HDB)
+5. Create Real-Time Database (RDB)
+6. Create Gateway (GW)
+7. Query Data
+8. EOD Processing
+
 
 ## 1. Create Database
-Creates a database using the hdb example containing one table 'example'.
+Create and populate a database containing one table 'example'.
 
-**Notebook:** create_basictick.ipynb
-**Database:** basictickdb
+**Notebook:** [create_basictick.ipynb](create_basictick.ipynb)   
+**Database:** basictickdb   
 
-## 2. Start TP on EC2
-Start a ticker plant on an EC2 instance. For the command line workaround TP host:port is already known and also exist in the cmdline.txt file found in the basictick.zip file.
+## 2. Start TickerPlant (TP) 
+Start a ticker plant on an EC2 instance. 
 
 **From Terminal**
 ```
 cd basictick
 q tp.q -p 5000
 ```
-q script found in basictick   
+tp.q script found in basictick folder   
 
 **Example Output**
 ```
@@ -46,7 +49,7 @@ sym time number
 ```
 
 ## 3. Start Feed on EC2
-Start a feed handler on an EC2. must pass the host:port of the running TP when starting the feedhandler.
+Start a feed handler on an EC2 and pass the host:port of the running TP when starting the feedhandler.
 
 **From Terminal**
 ```
@@ -57,7 +60,7 @@ q)/ Q: list connections
 q).conn.procs
 
 ```
-q script found in basictick
+feedmkdb.q script found in basictick folder   
 
 **Example Output**
 ```
@@ -76,41 +79,44 @@ q)
 ## 4. Create HDB
 Create an HDB to service queries of the hdb database (basictickdb). Deployed to the HDB is a bundle of q code in a file basictick.zip. The zip also contains an init script for the HDB (hdbmkdb.q)
 
-**Notebook:** create_HDB.ipynb
+**Notebook:** [create_HDB.ipynb](create_HDB.ipynb)    
 
 - Code in zip deployed on cluster (part of creation)
-- database found in /opt/kx/app/db/basictickdb
+- Database found in /opt/kx/app/db/basictickdb
 - Cluster started with hdbmkdb.q script
 
 ## 5. Create RDB 
 Create an RDB on the same database (basictickdb) as the HDB, the database does not require any cache but having the database ensures the database and its sym file will be in the /opt/kx/app/db/basictickdb directory of the cluster.
 
-**Notebook:** create_RDB.ipynb
+**Notebook:** [create_RDB.ipynb](create_RDB.ipynb)    
 
 - Code in zip deployed on cluster (part of creation)
-- database found in /opt/kx/app/db/basictickdb
+- Database found in /opt/kx/app/db/basictickdb
 - Cluster started with rdbmkdb.q script
-- Cluster knows which tp to connect to friom init's tphostfile argument
-  - Be sure the file is part of the zip deployed with the code
-  - The filename *cannot* have -._ in the name (e.g. GOOD: tickerplant, BAD: tickerplant.txt)
+- Cluster knows which tp to connect to from the rdbmkdb.q script's tphostfile argument
+  - Be sure the file is part of the zipfile deployed with the code
+  - The filename *cannot* have -._ in the name (e.g. GOOD: tickerplant, BAD: tickerplant.ini)
 
-## 7. Start GW on Managed kdb Insights
+## 6. Create GW
 Creaßte a Gateway cluster with create_GW notebook that will connect to and query across the named RDB and HDB clusters.
 
-**Notebook:** create_GW.ipynb
+**Notebook:** [create_GW.ipynb](create_GW.ipynb)    
 
 - Give the Gateway the names of the RDB and HDB clusters when creating
 
-## 8. Query Data
+## 7. Query Data
 Query the Gateway for data. Can also show the contents of example table at the RDB and HDB.
 
-**Notebook:** query_gw.ipynb
-**Notebook:** query_rdb.ipynb
-**Notebook:** query_hdb.ipynb
+**Notebook:** [query_RDB.ipynb](query_RDB.ipynb)   
+- RDB holds current (real-time) data
 
-**HDB** Note the number of rows per day
+**Notebook:** [query_HDB.ipynb](query_HDB.ipynb)
+- HDB holds historical data
 
-## 9. EOD Processing
+**Notebook:** [query_GW.ipynb](query_GW.ipynb)
+- Gateway queries RDB and HDB and combines results
+
+## 8. EOD Processing
 EOD processing is triggered at end of day, the purpose is to update the new (today's) data into the historical database and then inform the HDB to 'pick up' the latest version of its data to service queries.
 
 - RDB Executes EOD Update
@@ -118,23 +124,17 @@ EOD processing is triggered at end of day, the purpose is to update the new (tod
   - Add changeset to database
 - Update the HDB database
 
-**Notebook:** create_EOD_changeset.ipynb
-- Note the number of rows in the RDB (this is what will be in the changeset)
+**Notebook:** [process_EOD.ipynb](process_EOD.ipynb)
+- One notebook, using Python and PyKX to do all EOD processing   
+- Saves down RDB data, creates changeset, adds to database, updates HDB, re-connects GW to HDB   
 
-**Notebook:** update_HDB.ipynb
-- Updates the HDB database to the added changeset
+### Other Notebooks
+There are singluar notebooks for each step of the EOD process as well.
 
-**Notebook:** update_GW.ipynb
-- Updates the GW to get new connection strings for the updated HDB nodes
 
-### Prove It
-Demonstrate the HDB now cotains the updated records provided by the changeset added from the RDB.
+**Notebook:** [create_EOD_changeset.ipynb](create_EOD_changeset.ipynb)    
+**Notebook:** [update_HDB.ipynb](update_HDB.ipynb)     
+**Notebook:** [update_GW.ipynb](update_GW.ipynb)     
 
-- Query HDB, see newer data when compared to previous query
-- Compare updated database to results from query before updates
-
-**Notebook:** query_hdb_updated.ipynb
-**Notebook (alt):** create_EOD_changeset.ipynb (end of notebook)
-
-# Clean Up
-To reset the data back to before the demo, add a delete changeset with the recently added date of data. Once the changeset is ready, go the the cluster and update it to the newest changeset. These can be done through the console.
+### Notes
+- If you update multiple times per day, you will be replacing data for that day    
