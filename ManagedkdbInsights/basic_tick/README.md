@@ -98,7 +98,7 @@ Create an RDB on the same database (basictickdb) as the HDB, the database does n
   - The filename *cannot* have -._ in the name (e.g. GOOD: tickerplant, BAD: tickerplant.ini)
 
 ## 6. Create GW
-Creaßte a Gateway cluster with create_GW notebook that will connect to and query across the named RDB and HDB clusters.
+Create a Gateway cluster with create_GW notebook that will connect to and query across the named RDB and HDB clusters.
 
 **Notebook:** [create_GW.ipynb](create_GW.ipynb)    
 
