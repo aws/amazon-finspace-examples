@@ -3,7 +3,7 @@ This project demonstrates an implementation of a basic market data tick architec
 
 # Architectures
 ## Reference Archtecture
-<img src="Managed kdb Insights-HDB Migration.png"  width="50%">
+<img src="Managed kdb Insights-KX Architecture.png"  width="50%">
 
 ## Managed kdb Insights Archecture
 <img src="Managed kdb Insights-GA Architecture.png"  width="50%">
@@ -98,7 +98,7 @@ Create an RDB on the same database (basictickdb) as the HDB, the database does n
   - The filename *cannot* have -._ in the name (e.g. GOOD: tickerplant, BAD: tickerplant.ini)
 
 ## 6. Create GW
-Create a Gateway cluster with create_GW notebook that will connect to and query across the named RDB and HDB clusters.
+Creaßte a Gateway cluster with create_GW notebook that will connect to and query across the named RDB and HDB clusters.
 
 **Notebook:** [create_GW.ipynb](create_GW.ipynb)    
 
