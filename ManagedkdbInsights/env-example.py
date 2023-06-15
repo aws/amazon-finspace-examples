@@ -7,6 +7,8 @@ SUBNET_IDS=["subnet-0cb15b7de6cb72151"] # in AZ_ID
 AZ_MODE="SINGLE"
 AZ_ID="use1-az4"
 
+TP_HOSTFILE = "tickerplant2"
+
 #S3_BUCKET="kdb-demo-123456789012"
 S3_BUCKET="kdb-demo-123456789012-kms"
 
