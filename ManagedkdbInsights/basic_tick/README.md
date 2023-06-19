@@ -118,15 +118,6 @@ Query the Gateway for data. Can also show the contents of example table at the R
 **Notebook:** [pykx_query_all.ipynb](pykx_query_all.ipynb)   
 - PyKX Notebook that queries all clusters (RDB, HDB, and Gateway)
 
-**Notebook:** [query_RDB.ipynb](query_RDB.ipynb)   
-- RDB holds current (real-time) data
-
-**Notebook:** [query_HDB.ipynb](query_HDB.ipynb)
-- HDB holds historical data
-
-**Notebook:** [query_GW.ipynb](query_GW.ipynb)
-- Gateway queries RDB and HDB and combines results
-
 ### 6. End of Day (EOD) Processing
 EOD processing is triggered at end of day, the purpose is to update the new (today's) data into the historical database and then inform the HDB to 'pick up' the latest version of its data to service queries.
 
