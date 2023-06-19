@@ -21,7 +21,7 @@ This project demonstrates an implementation of a basic market data tick architec
 6. End of Day (EOD) Processing
 
 ## 0. Setup
-There are two py files that contain environment information, basictick_setup.py contains the names of the clusters and database, and another file for a specific Managed kdb environment env-example.py which should be renamed and filled out with the environment information of a FinSpace with Managed kdb Insights environment (items include the AWS account, environment ID, and VPC Id). That renamed file will then be imported by each of the notebooks of this project.
+There are two py files that contain environment information, basictick_setup.py contains the names of the clusters and database, and another file for a specific Managed kdb environment env.py which should be renamed and filled out with the environment information of a FinSpace with Managed kdb Insights environment (items include the AWS account, environment ID, and VPC Id). That renamed file will then be imported by each of the notebooks of this project.
 
 ## On an EC2
 ### 1. Start TickerPlant (TP) 

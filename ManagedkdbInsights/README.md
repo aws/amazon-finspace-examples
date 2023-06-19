@@ -7,8 +7,7 @@
 The parent directory contains common python scripts and symlinks to aws environment files (config and credentials). 
 
 ## Directions
-- Copy env-example.py to a new file, ex: env.py 
-- Replace the values found in the py files with values of your environment 
+- env.py contains environment specific information, enter details of your environment
   - Your AWS Account ID for ACCOUNT_ID
   - Your FinSpace Managed kdb Insights Envirinment ID for ENV_ID
   - Your VPC ID for VPC_ID
