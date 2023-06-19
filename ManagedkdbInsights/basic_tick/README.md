@@ -21,7 +21,7 @@ This project demonstrates an implementation of a basic market data tick architec
 6. End of Day (EOD) Processing
 
 ## 0. Setup
-There are two py files that contain environment information, basictick_setup.py contains the names of the clusters and database, and another file for a specific Managed kdb environment env-example.py. The environment file should be renamed and filled out with the environment information of a FinSpace with Managed kdb Insight environment (items include the AWS account, environment ID, and VPC Id).
+There are two py files that contain environment information, basictick_setup.py contains the names of the clusters and database, and another file for a specific Managed kdb environment env-example.py which should be renamed and filled out with the environment information of a FinSpace with Managed kdb Insights environment (items include the AWS account, environment ID, and VPC Id). That renamed file will then be imported by each of the notebooks of this project.
 
 ## On an EC2
 ### 1. Start TickerPlant (TP) 
@@ -38,7 +38,7 @@ tp.q script found in basictick folder
 ```
 (base) [ec2-user@ip-172-31-88-230 apricot-basic-tick]$ q tp.q -p 5000
 KDB+ 4.0 2023.01.20 Copyright (C) 1993-2023 Kx Systems
-l64/ 2(24)core 3907MB ec2-user ip-172-31-88-230.ec2.internal 172.31.88.230 EXPIRE 2024.01.13 vssaulys@amazon.com KOD #5012053
+l64/ 2(24)core 3907MB ec2-user ip-172-31-88-230.ec2.internal 172.31.88.230 EXPIRE 2024.01.13 johndoe@amazon.com KOD #5012053
 
 q)tables[]
 ,`example
@@ -65,7 +65,7 @@ feedmkdb.q script found in basictick folder
 ```
 (base) [ec2-user@ip-172-31-88-230 apricot-basic-tick]$ q feedmkdb.q -p 5030 -tp $TP
 KDB+ 4.0 2023.01.20 Copyright (C) 1993-2023 Kx Systems
-l64/ 2(24)core 3907MB ec2-user ip-172-31-88-230.ec2.internal 172.31.88.230 EXPIRE 2024.01.13 vssaulys@amazon.com KOD #5012053
+l64/ 2(24)core 3907MB ec2-user ip-172-31-88-230.ec2.internal 172.31.88.230 EXPIRE 2024.01.13 johndoe@amazon.com KOD #5012053
 
 "connected to tp"
 q).conn.procs
