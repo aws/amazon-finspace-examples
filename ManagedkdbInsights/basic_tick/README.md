@@ -1,31 +1,30 @@
 # Setup of Basic Tick on Managed kdb Insights
 This project demonstrates an implementation of a basic market data tick architecture using FinSpace Managed kdb Insights. 
 
-# Architectures
-## Reference Archtecture
-<img src="Managed kdb Insights-KX Architecture.png"  width="50%">
+# Architecture 
+[Architecture of kdb+ systems](https://code.kx.com/q/architecture/)
 
-## Managed kdb Insights Archecture
-<img src="Managed kdb Insights-GA Architecture.png"  width="50%">
+## Managed kdb Insights Architecture 
+<img src="Managed kdb Insights-BasicTick Architecture.png"  width="50%">
 
 # Implementation Outline
-1. Create database
-2. Start Ticker Plant (TP) on EC2
-3. Start Feed Handler (FH) on EC2 
-4. Create Historical Database (HDB)
-5. Create Real-Time Database (RDB)
-6. Create Gateway (GW)
-7. Query Data
-8. EOD Processing
+## On an EC2
+1. Start Ticker Plant (TP) 
+2. Start Feed Handler (FH) 
 
+## In Managed kdb Insights
+1. Create and Populate a Database
+2. Create Historical Database (HDB) Cluster
+3. Create Real-Time Database (RDB) Cluster
+4. Create Gateway (GW) Cluster
+5. Query Data
+6. End of Day (EOD) Processing
 
-## 1. Create Database
-Create and populate a database containing one table 'example'.
+## 0. Setup
+There are two py files that contain environment information, basictick_setup.py contains the names of the clusters and database, and another file for a specific Managed kdb environment env-example.py. The environment file should be renamed and filled out with the environment information of a FinSpace with Managed kdb Insight environment (items include the AWS account, environment ID, and VPC Id).
 
-**Notebook:** [create_basictick.ipynb](create_basictick.ipynb)   
-**Database:** basictickdb   
-
-## 2. Start TickerPlant (TP) 
+## On an EC2
+### 1. Start TickerPlant (TP) 
 Start a ticker plant on an EC2 instance. 
 
 **From Terminal**
@@ -48,7 +47,7 @@ sym time number
 ---------------
 ```
 
-## 3. Start Feed on EC2
+### 2. Start Feed Handler
 Start a feed handler on an EC2 and pass the host:port of the running TP when starting the feedhandler.
 
 **From Terminal**
@@ -76,7 +75,16 @@ tp      :172.31.88.230:5000 5      1
 q)
 ```
 
-## 4. Create HDB
+## In Managed kdb Insights
+
+### 1. Create and Populate a Database
+Create and populate a database containing one table 'example'.
+
+**Notebook:** [create_basictick.ipynb](create_basictick.ipynb)   
+**Database:** basictickdb (defined in [basictick_setup.py](basictick_setup.py))   
+
+
+### 2. Create Historical Database (HDB) Cluster
 Create an HDB to service queries of the hdb database (basictickdb). Deployed to the HDB is a bundle of q code in a file basictick.zip. The zip also contains an init script for the HDB (hdbmkdb.q)
 
 **Notebook:** [create_HDB.ipynb](create_HDB.ipynb)    
@@ -85,7 +93,7 @@ Create an HDB to service queries of the hdb database (basictickdb). Deployed to 
 - Database found in /opt/kx/app/db/basictickdb
 - Cluster started with hdbmkdb.q script
 
-## 5. Create RDB 
+### 3. Create Real-Time Database (RDB) Cluster 
 Create an RDB on the same database (basictickdb) as the HDB, the database does not require any cache but having the database ensures the database and its sym file will be in the /opt/kx/app/db/basictickdb directory of the cluster.
 
 **Notebook:** [create_RDB.ipynb](create_RDB.ipynb)    
@@ -97,15 +105,18 @@ Create an RDB on the same database (basictickdb) as the HDB, the database does n
   - Be sure the file is part of the zipfile deployed with the code
   - The filename *cannot* have -._ in the name (e.g. GOOD: tickerplant, BAD: tickerplant.ini)
 
-## 6. Create GW
+### 4. Create Gateways (GW) Cluster
 Creaßte a Gateway cluster with create_GW notebook that will connect to and query across the named RDB and HDB clusters.
 
 **Notebook:** [create_GW.ipynb](create_GW.ipynb)    
 
 - Give the Gateway the names of the RDB and HDB clusters when creating
 
-## 7. Query Data
+### 5. Query Data
 Query the Gateway for data. Can also show the contents of example table at the RDB and HDB.
+
+**Notebook:** [pykx_query_all.ipynb](pykx_query_all.ipynb)   
+- PyKX Notebook that queries all clusters (RDB, HDB, and Gateway)
 
 **Notebook:** [query_RDB.ipynb](query_RDB.ipynb)   
 - RDB holds current (real-time) data
@@ -116,7 +127,7 @@ Query the Gateway for data. Can also show the contents of example table at the R
 **Notebook:** [query_GW.ipynb](query_GW.ipynb)
 - Gateway queries RDB and HDB and combines results
 
-## 8. EOD Processing
+### 6. End of Day (EOD) Processing
 EOD processing is triggered at end of day, the purpose is to update the new (today's) data into the historical database and then inform the HDB to 'pick up' the latest version of its data to service queries.
 
 - RDB Executes EOD Update
@@ -125,16 +136,18 @@ EOD processing is triggered at end of day, the purpose is to update the new (tod
 - Update the HDB database
 
 **Notebook:** [process_EOD.ipynb](process_EOD.ipynb)
-- One notebook, using Python and PyKX to do all EOD processing   
+- Using Python and PyKX performs all EOD processing   
 - Saves down RDB data, creates changeset, adds to database, updates HDB, re-connects GW to HDB   
 
-### Other Notebooks
-There are singluar notebooks for each step of the EOD process as well.
+# Other Notebooks
+
+[pykx_clear_RDB.ipynb](pykx_clear_RDB.ipynb)    
+Clears the RDB's example table.
 
 
-**Notebook:** [create_EOD_changeset.ipynb](create_EOD_changeset.ipynb)    
-**Notebook:** [update_HDB.ipynb](update_HDB.ipynb)     
-**Notebook:** [update_GW.ipynb](update_GW.ipynb)     
+[get_connectionstrings.ipynb](get_connectionstrings.ipynb)     
+Given a dictionary of cluster names, generates connection stirngs the clusters.
 
-### Notes
-- If you update multiple times per day, you will be replacing data for that day    
+
+## Notes
+- If you update multiple times in the same day, you will replace the data for the day.    
