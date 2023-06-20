@@ -80,7 +80,7 @@ q)
 ### 1. Create and Populate a Database
 Create and populate a database containing one table 'example'.
 
-**Notebook:** [create_basictick.ipynb](create_basictick.ipynb)   
+**Notebook:** [create_basictickdb.ipynb](create_basictickdb.ipynb)   
 **Database:** basictickdb (defined in [basictick_setup.py](basictick_setup.py))   
 
 
