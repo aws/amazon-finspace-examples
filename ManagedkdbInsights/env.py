@@ -7,12 +7,12 @@ SUBNET_IDS=["subnet-0cb15b7de6cb72151"] # in AZ_ID
 AZ_MODE="SINGLE"
 AZ_ID="use1-az4"
 
-TP_HOSTFILE = "tickerplant2"
-
 #S3_BUCKET="kdb-demo-123456789012"
 S3_BUCKET="kdb-demo-123456789012-kms"
 
 S3_CODE_BUCKET="kdb-demo-069735623166"
+
+EXECUTION_ROLE="arn:aws:iam::123456789012:role/kdb-cluster-user"
 
 ENDPOINT_URL=None
 
