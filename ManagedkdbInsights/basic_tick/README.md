@@ -24,7 +24,9 @@ This project demonstrates an implementation of a basic market data tick architec
 There are two py files that contain environment information, basictick_setup.py contains the names of the clusters and database, and another file for a specific Managed kdb environment env.py which should be renamed and filled out with the environment information of a FinSpace with Managed kdb Insights environment (items include the AWS account, environment ID, and VPC Id). That renamed file will then be imported by each of the notebooks of this project.
 
 ## On an EC2
-### 1. Start TickerPlant (TP) 
+First, install q on an EC2 instance, then using q start a Ticker Plant (TP) and a Feed Handler (FH).
+
+### 1. Start Ticker Plant (TP) 
 Start a ticker plant on an EC2 instance. 
 
 **From Terminal**
