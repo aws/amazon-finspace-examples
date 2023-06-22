@@ -131,3 +131,6 @@ if __name__ == '__main__':
 
         chs_pdf = pd.DataFrame.from_dict(c_rqs).style.hide(axis='index')
         print(chs_pdf.to_string())
+
+    if args.clean_up:
+        os.system(f"aws s3 rm {args.s3} --recursive")
