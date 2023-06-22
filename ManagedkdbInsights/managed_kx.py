@@ -126,7 +126,7 @@ def get_kx_environment(client, environmentId: str=None):
     return resp
     
     
-def wait_for_environment_status(client, status: str='CREATED', sleep_sec=10, max_wait_sec=1200, show_wait=False, environmentId:str=None):
+def wait_for_environment_status(client, environmentId:str, status: str='CREATED', sleep_sec=10, max_wait_sec=1200, show_wait=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 
@@ -172,7 +172,7 @@ def wait_for_environment_status(client, status: str='CREATED', sleep_sec=10, max
     return None
 
 
-def wait_for_changeset_status(client, databaseName: str, changesetId: str, status: str='COMPLETED', sleep_sec=10, max_wait_sec=1200, show_wait=False, environmentId:str=None):
+def wait_for_changeset_status(client, environmentId:str, databaseName: str, changesetId: str, status: str='COMPLETED', sleep_sec=10, max_wait_sec=1200, show_wait=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 
@@ -219,7 +219,7 @@ def wait_for_changeset_status(client, databaseName: str, changesetId: str, statu
     return None
 
 
-def wait_for_cluster_status(client, clusterName: str, status: str='RUNNING', sleep_sec=30, max_wait_sec=3600, show_wait=False, environmentId:str=None):
+def wait_for_cluster_status(client, environmentId:str, clusterName: str, status: str='RUNNING', sleep_sec=30, max_wait_sec=3600, show_wait=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 
