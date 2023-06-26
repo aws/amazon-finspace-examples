@@ -1,5 +1,5 @@
 # HDB Backup
-This script can be used to backup an existing filesystem based HDB to FinSpace with Managed kdd Insights.
+This script can be used to backup an existing filesystem based HDB to [FinSpace with Managed kdb Insights]().
 
 A test hdb (in hdb.tar.gz) has been provided, you must untar this to use in the script, script assumes the hdb is
 accessible by file system.

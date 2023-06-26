@@ -1,15 +1,16 @@
 # Projects
 - [basic_tick](basic_tick)
 - [boto](boto)
+- [HDB Backup](hdb_backup)
 
 # Important notes
 
-The parent directory contains common python scripts and symlinks to aws environment files (config and credentials). 
+The parent directory contains common python scripts which are sym linked from the project directories. 
 
 ## Directions
 - env.py contains environment specific information, enter details of your environment
   - Your AWS Account ID for ACCOUNT_ID
-  - Your FinSpace Managed kdb Insights Envirinment ID for ENV_ID
+  - Your FinSpace Managed kdb Insights Environment ID for ENV_ID
   - Your VPC ID for VPC_ID
 - Do above at the "ManagedkdbInsights" folder level
 - Sym link the env.py file into sub-directories, such as boto and basic_tick

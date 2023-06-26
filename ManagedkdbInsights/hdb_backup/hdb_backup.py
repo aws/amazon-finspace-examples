@@ -50,6 +50,26 @@ if __name__ == '__main__':
     #   - S3 bucket exists
     # -------------------------------------------------------------
 
+    # if database does not exist, create it
+    # assume it exists
+    create_db = False
+    resp = None
+
+    try:
+        resp = client.get_kx_database(environmentId=ENV_ID, databaseName=DB_NAME)
+        resp.pop('ResponseMetadata', None)
+    except:
+        # does not exist, will create
+        create_db = True
+
+    if create_db:
+        print(f"CREATING Database: {DB_NAME}")
+        resp = client.create_kx_database(environmentId=ENV_ID, databaseName=DB_NAME)
+        resp.pop('ResponseMetadata', None)
+        print(f"CREATED Database: {DB_NAME}")
+
+    if resp is not None:
+        print(json.dumps(resp, sort_keys=True, indent=4, default=str))
 
     # Get dates for the range
     dates = pd.date_range(start=args.start_date, end=args.end_date)
@@ -60,7 +80,9 @@ if __name__ == '__main__':
     # sync sym
     os.system(f"aws s3 cp {args.hdb_directory}/sym {args.s3}/sym")
 
-    # sync dates
+    # sync dates to s3
+
+    # l is a list of date lists
     for l in date_list:
         for d in l:
             source_date = f"{args.hdb_directory}/{d.strftime('%Y.%m.%d')}"
@@ -73,14 +95,10 @@ if __name__ == '__main__':
 
     # all data to import now staged on s3
 
-    # create chunks of dates
-    dir_list = wr.s3.list_directories(f"{args.s3}/*", boto3_session=session)
-    s3_list = list(divide_chunks(dir_list, args.chunk_size))
-
-    # By chunk_size, create_kx_changeset and push to database in Managed kdb
+    # By chunk_size call create_kx_changeset and push to database in Managed kdb
     changes = []
 
-    # day import, starting with sym file, then date directories...
+    # Start with sym file, then date directories...
     changes = [{'changeType': 'PUT', 's3Path': f"{args.s3}/sym", 'dbPath': f"/"}]
 
     # all dates to import
@@ -88,6 +106,8 @@ if __name__ == '__main__':
 
     # create chunks of dates
     d_list = list(divide_chunks(dir_list, 30))
+
+    print("Creating Changsets... ")
 
     # by chunk of dates....
     for l in d_list:
@@ -133,4 +153,4 @@ if __name__ == '__main__':
         print(chs_pdf.to_string())
 
     if args.clean_up:
-        os.system(f"aws s3 rm {args.s3} --recursive")
+        os.system(f"aws s3 rm {args.s3}/ --recursive")

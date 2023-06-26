@@ -369,7 +369,7 @@ def get_clusters(client, clusterType: str=None, environmentId:str=None):
 
         dict_l.append(d)
 
-    return pd.DataFrame.from_dict(dict_l).style.hide(axis='index')
+    return pd.DataFrame.from_dict(dict_l)
 
 def print_clusters(client, print_empty=False, environmentId:str=None):
     if environmentId is None:
