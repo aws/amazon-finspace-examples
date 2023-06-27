@@ -5,7 +5,7 @@ A test hdb (in hdb.tar.gz) has been provided, you must untar this to use in the 
 accessible by file system.
 
 ## The Script
-[hdb_backup,py](hdb_backup,py)
+[hdb_backup.py](hdb_backup.py)
 
 ```
 usage: hdb_backup.py [-h] -environmentId ENVIRONMENTID [-profile PROFILE] -hdb_directory HDB_DIRECTORY -database DATABASE -s3 S3 [-chunk_size CHUNK_SIZE] [-clean_up CLEAN_UP]
