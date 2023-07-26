@@ -68,7 +68,7 @@ upd:upsert;
 
     /If could not connect to tp, increment wait timer by second (backoff) and set to reconnect.
     .rdb.tpConnectWait+:1;
-    .z.ts:{.rdb.establishTpConnection[zx]};
+    .z.ts:{[x;zx].feed.establishTpConnection[zx]}[;zx];
     show"Could not establish connection to tp waiting ",string[.rdb.tpConnectWait]," seconds";
     system"t ",string 1000* .rdb.tpConnectWait;
     }
@@ -76,10 +76,10 @@ upd:upsert;
 
 init:{[zx]
     /if handle closes mark it in conn tab and set to reconnect
-    .z.pc:{[h]
+    .z.pc:{[h;zx]
         .conn.handleDrop[h];
-        .rdb.establishTpConnection[zx];
-        };
+        .feed.establishTpConnection[zx];
+        }[;zx];
 
 
     .rdb.establishTpConnection[zx]
