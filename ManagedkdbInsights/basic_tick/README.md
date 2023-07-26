@@ -124,9 +124,10 @@ Query the Gateway for data. Can also show the contents of example table at the R
 EOD processing is triggered at end of day, the purpose is to update the new (today's) data into the historical database and then inform the HDB to 'pick up' the latest version of its data to service queries.
 
 - RDB Executes EOD Update
-  - Save im memory table to scratch space
+  - Save in memory table to scratch space on disk
   - Add changeset to database
 - Update the HDB database
+  - Database version moved to just added changeset
 
 **Notebook:** [process_EOD.ipynb](process_EOD.ipynb)
 - Using Python and PyKX performs all EOD processing   
