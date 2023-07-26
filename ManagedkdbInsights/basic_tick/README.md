@@ -55,7 +55,7 @@ Start a feed handler on an EC2 and pass the host:port of the running TP when sta
 **From Terminal**
 ```
 cd basictick
-TP=:172.31.32.120:5000
+TP=:172.31.22.143:5000
 q feedmkdb.q -p 5030 -tp $TP
 q)/ Q: list connections
 q).conn.procs

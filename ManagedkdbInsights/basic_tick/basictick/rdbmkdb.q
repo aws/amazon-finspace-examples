@@ -12,6 +12,7 @@ show params
 dbname:first params`dbname
 codebase:first params`codebase
 tphostfile:first params`tphostfile
+tp:first params`tp
 
 / assign paths
 app_path: "/opt/kx/app"
@@ -29,8 +30,9 @@ $[count key hsym `$codepath;[ show "cd to code directory: ", codepath; system "c
 
 /----
 / What should also come from the command line
-tp: read0`$tphostfile
-cmdline: raze (enlist "-tp"; tp)
+/tp: read0`$tphostfile
+/cmdline: raze (enlist "-tp"; `$tp)
+cmdline: ("-tp"; tp)
 show cmdline
 /----
 
