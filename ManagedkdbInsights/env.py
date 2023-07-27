@@ -12,12 +12,16 @@ S3_BUCKET="kdb-demo-123456789012-kms"
 
 S3_CODE_BUCKET="kdb-demo-069735623166"
 
-EXECUTION_ROLE="arn:aws:iam::123456789012:role/kdb-cluster-user"
+EXECUTION_ROLE=f"arn:aws:iam::{ACCOUNT_ID}:role/kdb-cluster-user"
 
 ENDPOINT_URL=None
 
 # USER
 KDB_USERNAME="bob"
+
+# TP
+TP=":172.31.22.143:5000"
+TP_HOSTFILE = "tickerplant"
 
 # Access Variables
 AWS_ACCESS_KEY_ID=""
