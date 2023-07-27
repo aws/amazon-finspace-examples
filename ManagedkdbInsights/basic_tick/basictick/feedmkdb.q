@@ -23,7 +23,7 @@ cmdline:.z.x
 
     /If could not connect to tp, increment wait timer by second (backoff) and set to reconnect.
     .feed.tpConnectWait+:1;
-    .z.ts:{.feed.establishTpConnection[zx]};
+    .z.ts:{[x;zx].feed.establishTpConnection[zx]}[;zx];
     show"Could not establish connection to tp waiting ",string[.feed.tpConnectWait]," seconds";
     system"t ",string 1000* .feed.tpConnectWait;
     }
@@ -36,10 +36,10 @@ cmdline:.z.x
     }
 
 init:{[zx]
-    .z.pc:{[h]
+    .z.pc:{[h;zx]
         .conn.handleDrop[h];
         .feed.establishTpConnection[zx];
-        };
+        }[;zx];
     .feed.establishTpConnection[zx];
     }
 
