@@ -105,7 +105,7 @@ if __name__ == '__main__':
     dir_list = wr.s3.list_directories(f"{args.s3}/*", boto3_session=session)
 
     # create chunks of dates
-    d_list = list(divide_chunks(dir_list, 30))
+    d_list = list(divide_chunks(dir_list, args.chunk_size))
 
     print("Creating Changsets... ")
 
