@@ -1,9 +1,10 @@
 # Projects
 - [basic_tick](basic_tick)
 - [boto](boto)
+- [q](q)
 - [HDB Backup](hdb_backup)
 
-# Important notes
+# Import:want notes
 
 The parent directory contains common python scripts which are sym linked from the project directories. 
 
