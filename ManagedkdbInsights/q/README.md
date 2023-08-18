@@ -3,7 +3,7 @@ Here you will find q code examples using Managed kdb Insights
 
 ## Directories
 [qcode](qcode)     
-Example of local q code that will be deployed to clusters, includes an init script (init.q) and library functions (libq).   
+Example of local q code that will be deployed to clusters, includes an init script (init.q) and library functions (lib.q).   
 
 ## Scripts
 
