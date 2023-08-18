@@ -1,3 +1,6 @@
+/ so text of log messages are wide enough
+\c 30 200
+
 / command line arguments
 params:.Q.opt .z.X
 
@@ -7,33 +10,39 @@ show system "pwd"
 show "Command Line Arguments..."
 show params
 
+/ START: TO BE MOVED TO SYSTEM's INIT ----------------------------------------------
+
+/ get the name of the database given to use
 dbname:first params`dbname
-codebase:first params`codebase
 
-app_path: "/opt/kx/app"
+code_dir: "/opt/kx/app/code/"
 
-dbpath: app_path, "/db/", dbname
-codepath: app_path, "/code/", codebase
+/ cd to code directory
+system "cd ", code_dir
 
-/If database directory exists, mount it
-$[count key hsym `$dbpath;[ show "loading database: ", dbpath; system "l ", dbpath;];
-    [show "no database at: ", dbpath;]]
+/ link the (sibling) db dir to code dir
 
-/ if code directory exists, cd to it
-$[count key hsym `$codepath;[ show "cd to code directory: ", codepath; system "cd ", codepath;];
-    [show "no code at: ", codepath;]];
+/ read-only code directory: getting error here
+show "Link db directory to (this) code directory"
+/system "ln -s /opt/kx/app/db ." 
 
-/ BEGIN load libraries relative to the codepath
+/ TEMP TO BE REMOVED WHEN ONE CAN WRITE THE SYMLINK: cd to db dir
+system "cd /opt/kx/app"
+
+/ load the db
+system "l db/", dbname
+
+/ run this to capture counts of partitioned tables (updated global variables)
+count each value each tables[]
+
+/ MUST FINISH IN THIS DIRECTORY
+system "cd ", code_dir
+
+/ END: TO BE MOVED TO SYSTEM's INIT ----------------------------------------------
+
+/ load libraries (relative to /opt/kx/app/code directory)
 
 \l lib.q
-
-/ END load libraries
-
-/ must be in this path for db reads to work
-system "cd /opt/kx"
-
-/ run this to capture counts of partitioned tables
-count each value each tables[]
 
 show "Finished in directory..."
 show system "pwd"
