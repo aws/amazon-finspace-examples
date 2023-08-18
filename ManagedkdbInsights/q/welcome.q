@@ -125,9 +125,7 @@ show "Deleting Cluster: ", CLUSTER_NAME
 
 $[DELETE_CLUSTER=1b; [.aws.delete_kx_cluster[CLUSTER_NAME]] ]
 
-/res:.aws.wait_for_status[{.aws.get_kx_cluster[CLUSTER_NAME]};"RUNNING";00:00:20;00:60:00]
-
-.[.aws.wait_for_status; ({.aws.get_kx_cluster[CLUSTER_NAME]};"RUNNING";00:00:20;00:60:00); {show "Cluster: ", CLUSTER_NAME, " does not exist, deleted";}];
+.[.aws.wait_for_status; ({.aws.get_kx_cluster[CLUSTER_NAME]};"RUNNING";00:00:20;01:00:00); {show "Cluster: ", CLUSTER_NAME, " does not exist, deleted";}];
 
 show .aws.list_kx_clusters[ENV_ID];
 
