@@ -1,14 +1,13 @@
-ACCOUNT_ID:"829845998889"
-ENV_ID:"jlcenjvtkgzrdek2qqv7ic"
+ACCOUNT_ID:""
+ENV_ID:""
 
-VPC_ID:"vpc-0fe2b9c50f3ad382f"
-SECURITY_GROUP: "sg-0c99f1cfb9c3c7fd9"
-SUBNET_ID:"subnet-04052219ec25b062b"
+VPC_ID:"vpc-"
+SECURITY_GROUP: "sg-"
+SUBNET_ID:"subnet-"
 AZ_MODE:"SINGLE"
 AZ_ID:"use1-az6"
 
-/S3_BUCKET:"kdb-demo-829845998889"
-S3_BUCKET:"kdb-demo-829845998889-kms"
+S3_BUCKET:"kdb-demo-XXXXXXXX-kms"
 
 / USER
 KDB_USERNAME:"bob"
