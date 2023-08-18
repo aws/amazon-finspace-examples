@@ -2,12 +2,12 @@
 Here you will find q code examples using Managed kdb Insights
 
 ## Directories
-[qcode](qcode)
+[qcode](qcode)     
 Example of local q code that will be deployed to clusters, includes an init script (init.q) and library functions (libq).   
 
 ## Scripts
 
-[aws,q](aws.q)   
+[aws.q](aws.q)   
 q functions in the .aws namespace that call the underlying AWS CLI APIs. You will need to have configured the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) and set your credentials to access your AWS account and the finspace environment you have already created.
 
 [env_example.q](env_example.q)    
