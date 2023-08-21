@@ -299,7 +299,6 @@ wait_for_status:{[function;status;frequency;timeout]
   st:.z.t;
   l:0;
   while [(timeout>ti:.z.t-st) & not status like res`status; 
-/     $[0=((`int$ti) div 1000) mod 20;
      $[frequency<=ti-l;
          (
             l:ti;

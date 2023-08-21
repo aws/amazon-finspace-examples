@@ -5,7 +5,9 @@ This repository contains examples that show how to work with [Amazon FinSpace](h
 These are example projects using FinSpace with Managed kdb Insights. Refer to each project README.
 
 - [AWS Boto Examples](ManagedkdbInsights/boto)
+- [q Examples](ManagedkdbInsights/q)
 - [Reference Architecture](ManagedkdbInsights/basic_tick)
+- [HDB Backup](ManagedkdbInsights/hdb_backup)
 
 ## Dataset Browser
 Example notebooks using the dataset browser.

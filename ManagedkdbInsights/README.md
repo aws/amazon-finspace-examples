@@ -4,7 +4,7 @@
 - [q](q)
 - [HDB Backup](hdb_backup)
 
-# Import:want notes
+# Important notes
 
 The parent directory contains common python scripts which are sym linked from the project directories. 
 
