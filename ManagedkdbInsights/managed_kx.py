@@ -17,7 +17,12 @@ pd.set_option('display.max_colwidth', None)
 # ----------------------------------------------------------------------------
 
 def get_kx_environment_id(client):
-    envs = list_kx_environments(client)
+    l = list_kx_environments(client)
+    envs = []
+    
+    for e in l:
+        if e['status'] == "CREATED":
+            envs.append(e)
     
     if len(envs) != 1:
         print(f"Environment count: {len(envs)} cannot infer which to use")
