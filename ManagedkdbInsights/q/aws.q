@@ -232,12 +232,19 @@ update_kx_database:{[databaseName;properties]
    finspace_cli "update-kx-database --database-name ",databaseName,merge_props properties
  }
 
-
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/update-kx-cluster-databases.html 
 / databases is a string built by .aws.sdbs
-update_kx_cluster_databases:{[clusterName;databases]
+/ properties is a list or scalar made up from the output of zero or more helper functions
+/ for now, the only allowed property is deployment configuration, created with .aws.sdep
+/ example: 
+/     .aws.update_kx_cluster_databases[
+/        "MyCluster";
+/        .aws.sdbs[.aws.db["MyDB";"osSoXB58eSXuDXLZFTCHyg";.aws.cache["";"/"]]];
+/        .aws.sdep"ROLLING"
+/     ]
+update_kx_cluster_databases:{[clusterName;databases;properties]
    $[clusterName~"";clusterName:prefs`clusterName;];
-   finspace_cli "update-kx-cluster-databases --cluster-name ",clusterName,databases
+   finspace_cli "update-kx-cluster-databases --cluster-name ",clusterName,databases,merge_props properties
  }
 
 / -------------------------
@@ -505,5 +512,11 @@ ssaved:{[storageType;gigas]
    "type=",storageType,
    ",size=",string gigas
  }
+
+/ build a string with a deployment configuration for functions that require it
+/ the argument is the name of a deployment strategy, for now "ROLLING" or "NO_RESTART"
+sdep:{[strategy]
+   " --deployment-configuration deploymentStrategy=",strategy
+ }  
 
 \d .
