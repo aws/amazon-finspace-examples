@@ -154,13 +154,13 @@ delete_kx_cluster:{[clusterName]
 / ------------------
 
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/create-kx-environment.html
-/ properties is a string built by concatenating the output of zero or more helper functions
+/ properties is a list or scalar made up from the output of zero or more helper functions
 / for now, the only allowed property is description, created with .aws.sdesc
 / examples:
 /   .aws.create_kx_environment["myEnvName";""]
-/   .aws.create_kx_environment["myEnvName";.aws.sdesc["This is my description"]]
+/   .aws.create_kx_environment["myEnvName";.aws.sdesc"This is my description"]
 create_kx_environment:{[environmentName;kmsKeyId;properties]
-   finspace_cli "create-kx-environment --name ",environmentName,properties; 
+   finspace_cli "create-kx-environment --name ",environmentName,merge_props properties; 
  }
 
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/create-kx-user.html
@@ -172,14 +172,14 @@ create_kx_user:{[userName;iamRole]
 
 
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/create-kx-database.html
-/ properties is a string built by concatenating the output of zero or more helper functions
+/ properties is a list or scalar made up from the output of zero or more helper functions
 / for now, the only allowed property is description, created with .aws.sdesc
 / examples:
 /  .aws.create_kx_database["myDbName";""]
-/  .aws.create_kx_database["myDbName";.aws.sdesc["This is my description"]]
+/  .aws.create_kx_database["myDbName";.aws.sdesc"This is my description"]
 create_kx_database:{[databaseName;properties]
    $[databaseName~"";databaseName:prefs`databaseName;];
-   finspace_cli "create-kx-database --database-name ",databaseName,properties 
+   finspace_cli "create-kx-database --database-name ",databaseName,merge_props properties 
  }
 
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/create-kx-changeset.html 
@@ -201,10 +201,10 @@ create_kx_changeset:{[databaseName;changeRequests]
 / nodeType in ["kx.s.large";"kx.s.xlarge";"kx.s.2xlarge";"kx.s.4xlarge";"kx.s.8xlarge";"kx.s.16xlarge";"kx.s.32xlarge"]
 / releaseLabel is the version of FinSpace managed kdb to run (example: "1.0")
 / azMode in ["SINGLE";"MULTI"]
-/ properties is a string built by concatenating the output of one or more of the following helper functions:
+/ properties is a list or scalar made up from the output of zero or more of the following helper functions:
 /   .aws.sdbs, .aws.scaches, .aws.sautoscale, .aws.scdesc, .aws.sscript, .aws.svpc, .aws.scl, 
 /   .aws.scode, .aws.saz, .aws.sexec, .aws.ssaved
-/ example: .aws.saz["use1-az4"],.aws.svpc["vpc-0e811ea765254dc23";"sg-1381015734ae3682c";"subnet-0ef64b551076ad28";""] 
+/ example: (.aws.saz"use1-az4";.aws.svpc["vpc-0e811ea765254dc23";"sg-1381015734ae3682c";"subnet-0ef64b551076ad28";""]) 
 create_kx_cluster:{[clusterName;clusterType;nodeType;nodeCount;releaseLabel;azMode;properties]
    finspace_cli
       "create-kx-cluster --cluster-name ",clusterName,
@@ -212,7 +212,7 @@ create_kx_cluster:{[clusterName;clusterType;nodeType;nodeCount;releaseLabel;azMo
       " --capacity-configuration nodeType=",nodeType,",nodeCount=",(string nodeCount),
       " --release-label ",releaseLabel,
       " --az-mode ",azMode,
-      properties
+      merge_props properties
 
  }
 
@@ -222,14 +222,14 @@ create_kx_cluster:{[clusterName;clusterType;nodeType;nodeCount;releaseLabel;azMo
 
  
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/update-kx-database.html
-/ properties is a string built by concatenating the output of zero or more helper functions
+/ properties is a list or scalar made up from the output of zero or more helper functions
 / for now, the only allowed property is description, created with .aws.sdesc
 / examples:
 /   .aws.create_kx_database["myDbName";""]
-/   .aws.create_kx_database["myDbName";.aws.sdesc["This is my description"]]
+/   .aws.create_kx_database["myDbName";.aws.sdesc"This is my description"]
 update_kx_database:{[databaseName;properties]
    $[databaseName~"";databaseName:prefs`databaseName;];
-   finspace_cli "update-kx-database --database-name ",databaseName,properties
+   finspace_cli "update-kx-database --database-name ",databaseName,merge_props properties
  }
 
 
@@ -380,6 +380,10 @@ escape:{[s]
     / restore console dimensions
     system "c ",.Q.s1 dims;
     esc
+ }
+
+merge_props:{[properties]
+   $[0h=type properties;sv["";properties];properties]
  }
 
 / ---------------------------
