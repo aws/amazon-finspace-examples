@@ -420,7 +420,7 @@ ccache:{[cacheType;cacheSize]
    `type`size!(cacheType;cacheSize)
  }
 
-/ build a string with a generic description for functions that require it
+/ build a string with a cluster description for functions that require it
 scdesc:{[description]
    $[description~"";"";" --cluster-description \"",description,"\""]
  }
@@ -444,7 +444,7 @@ sautoscale:{[minNodeCount;maxNodeCount;autoScalingMetric;metricTarget;scaleInCoo
    ",scaleOutCooldownSeconds=",scaleOutCooldownSeconds
  }
 
-/ build a string with a cluster description for functions that require it
+/ build a string with a generic description for functions that require it
 / note: clusters require a description created with .aws.scdesc
 sdesc:{[description]
 
