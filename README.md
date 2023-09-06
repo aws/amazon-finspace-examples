@@ -27,7 +27,7 @@ Services Summit Sept 14, 2021: [Making Financial Data More Accessible in the Clo
 ## FAQ
 *How do I contribute my own examples?*  
 
-- Although we're extremely excited to receive contributions from the community, we're still working on the best mechanism to take in examples from external sources.  Please bare with us in the short-term if pull requests take longer than expected or are closed.
+- Although we're extremely excited to receive contributions from the community, we're still working on the best mechanism to take in examples from external sources.  Please bear with us in the short-term if pull requests take longer than expected or are closed.
 
 ## License
 
