@@ -72,7 +72,7 @@ res:.aws.create_kx_changeset[DB_NAME; c_r]
 
 show "Adding Changeset: ", res`changesetId;
 
-res:.aws.wait_for_status[{.aws.get_kx_changeset[DB_NAME; res`changesetId]};"COMPLETED";00:00:05;00:30:00] 
+res:.aws.wait_for_status[.aws.get_kx_changeset;(DB_NAME; res`changesetId);("COMPLETED","FAILED");00:00:05;00:30:00] 
 
 show res
 
@@ -112,7 +112,7 @@ res:.aws.create_kx_cluster[
  ]
 show res
 
-res:.aws.wait_for_status[{.aws.get_kx_cluster[CLUSTER_NAME]};"RUNNING";00:00:20;00:30:00]
+res:.aws.wait_for_status[.aws.get_kx_cluster;enlist CLUSTER_NAME;("RUNNING";"CREATE_FAILED");00:00:20;00:30:00]
 
 show "Created Cluster: ", CLUSTER_NAME
 show res
@@ -141,7 +141,7 @@ show "Deleting Cluster: ", CLUSTER_NAME
 
 $[DELETE_CLUSTER=1b; [.aws.delete_kx_cluster[CLUSTER_NAME]] ]
 
-.[.aws.wait_for_status; ({.aws.get_kx_cluster[CLUSTER_NAME]};"RUNNING";00:00:20;01:00:00); {show "Cluster: ", CLUSTER_NAME, " does not exist, deleted";}];
+.[.aws.wait_for_status; (.aws.get_kx_cluster;enlist CLUSTER_NAME;("DELETED";"DELETE_FAILED");00:00:20;01:00:00); {show "Cluster: ", CLUSTER_NAME, " does not exist, deleted";}];
 
 show .aws.list_kx_clusters[ENV_ID];
 

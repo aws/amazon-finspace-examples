@@ -297,19 +297,20 @@ connect_to_cluster:{[clusterName;userName]
 / Public Wait API
 / ---------------
 
-/ calls the function every 20 milliseconds until
-/ it returns a dictionary with the expected status in the status key
+/ calls the provided function with the given arguments at the specified frequency until
+/ it returns a dictionary with the value for status key matching one of the expected statuses
 / or it times out
-/ example: .aws.wait_for_status[{.aws.get_kx_cluster["Name"]},"Ready",30:00] 
-wait_for_status:{[function;status;frequency;timeout]
-  res:function[];
+/ example: .aws.wait_for_status[.aws.get_kx_cluster;enlist "Name";("COMPLETED";"FAILED");00:00:20;30:00] 
+wait_for_status:{[function;args;statuses;frequency;timeout]
+  res:function . args;
   st:.z.t;
   l:0;
-  while [(timeout>ti:.z.t-st) & not status like res`status; 
+  $[10h=type statuses;statuses:enlist statuses;]
+  while [(timeout>ti:.z.t-st) & not (res`status) in statuses; 
      $[frequency<=ti-l;
          (
             l:ti;
-            res:function[]; 
+            res:function . args; 
             show "Status: ", (res`status), " waited: ", string(ti)
          );
      ]
