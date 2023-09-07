@@ -64,7 +64,8 @@ list_kx_clusters:{[]
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/list-kx-cluster-nodes.html
 list_kx_cluster_nodes:{[clusterName]
    $[clusterName~"";clusterName:prefs`clusterName;];
-   finspace_list["list-kx-cluster-nodes --cluster-name ", clusterName;`nodes]
+   nodes:finspace_list["list-kx-cluster-nodes --cluster-name ", clusterName;`nodes];
+   select node_id: nodeId, az_id:availabilityZoneId, launch_time: launchTime from nodes
  }
 
 / ---------------
