@@ -93,7 +93,23 @@ CLUSTER_DESC: "Cluster from q API"
 
 show "Creating Cluster: ", CLUSTER_NAME
 
-res:.aws.create_kx_cluster[CLUSTER_NAME; "HDB"; CLUSTER_NODE_TYPE; NODE_COUNT; "1.0"; AZ_MODE; .aws.saz[AZ_ID], .aws.svpc[VPC_ID;SECURITY_GROUP;SUBNET_ID;""], .aws.sdbs[ .aws.db[DB_NAME;changesetId; .aws.cache["CACHE_1000";"/"]] ], .aws.scaches[.aws.ccache["CACHE_1000";1200]], .aws.scode[S3_BUCKET;CODE_PATH;""], .aws.sscript["init.q"], .aws.scl[ ("s";"dbname")!("2";DB_NAME) ], .aws.scdesc[CLUSTER_DESC] ]
+res:.aws.create_kx_cluster[
+    CLUSTER_NAME; 
+    "HDB"; 
+    CLUSTER_NODE_TYPE; 
+    NODE_COUNT; "1.0"; 
+    AZ_MODE; 
+    (
+        .aws.saz[AZ_ID];
+        .aws.svpc[VPC_ID;SECURITY_GROUP;SUBNET_ID;""];
+        .aws.sdbs[ .aws.db[DB_NAME;changesetId; .aws.cache["CACHE_1000";"/"]] ];
+        .aws.scaches[.aws.ccache["CACHE_1000";1200]];
+        .aws.scode[S3_BUCKET;CODE_PATH;""];
+        .aws.sscript["init.q"];
+        .aws.scl[ ("s";"dbname")!("2";DB_NAME) ];
+        .aws.scdesc[CLUSTER_DESC] 
+    ) 
+ ]
 show res
 
 res:.aws.wait_for_status[{.aws.get_kx_cluster[CLUSTER_NAME]};"RUNNING";00:00:20;00:30:00]
