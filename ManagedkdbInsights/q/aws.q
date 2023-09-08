@@ -214,7 +214,6 @@ create_kx_changeset:{[databaseName;changeRequests]
 /     change_type: ("PUT";"PUT")
  /  )
 create_changeset:{[databaseName;changeRequests]
-   cleanup_s3_staging[];
    / upload local files to the staging bucket
    {
       $[
@@ -239,10 +238,11 @@ create_changeset:{[databaseName;changeRequests]
       } 
       each changeRequests;
    / invoke the public API
-   create_kx_changeset[databaseName;pubCR]
+   res:create_kx_changeset[databaseName;pubCR];
+   (`id`status)!(res`changesetId;res`status)
  }
 
-/ delete any intermediate objects from the staging s3 bucket
+/ empty the staging s3 bucket
 cleanup_s3_staging:{[]
    cli "s3 rm ",stage "/"," --recursive"
  }
