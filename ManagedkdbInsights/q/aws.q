@@ -10,7 +10,7 @@
  
 / .aws.set_prefs is usually the first function to call
 / new is a dictionary with preferred values specifying one or more of the following:
-/   `envName`clusterName`userName`envId`userArn`iamRole`sessionName`databaseName
+/   `envName`clusterName`userName`envId`userArn`iamRole`sessionName`databaseName`stagingS3Bucket
 / if environment ID is not specified, it's retrieved from the AWS account 
 / if user name is specified, userArn and iamRole are retrieved for that user
 / if no session name is specified, "default" is used as the session name
@@ -19,8 +19,8 @@
 
 set_prefs:{[new]
    prefs,:new;
-   $[""~new`envId;prefs[`envId]:get_kx_environment_id prefs`envName;];
-   $[""~new`sessionName;prefs[`sessionName]:"default";];  
+   $[""~prefs`envId;prefs[`envId]:get_kx_environment_id prefs`envName;];
+   $[""~prefs`sessionName;prefs[`sessionName]:"default";];  
    $[""~new`userName;;prefs^:get_kx_user_arns prefs`userName];  
  }
 
@@ -64,7 +64,8 @@ list_kx_clusters:{[]
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/list-kx-cluster-nodes.html
 list_kx_cluster_nodes:{[clusterName]
    $[clusterName~"";clusterName:prefs`clusterName;];
-   finspace_list["list-kx-cluster-nodes --cluster-name ", clusterName;`nodes]
+   nodes:finspace_list["list-kx-cluster-nodes --cluster-name ", clusterName;`nodes];
+   select node_id: nodeId, az_id:availabilityZoneId, launch_time: launchTime from nodes
  }
 
 / ---------------
@@ -183,17 +184,67 @@ create_kx_database:{[databaseName;properties]
  }
 
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/create-kx-changeset.html 
-/ changeRequests is a list of dictionaries
+/ changeRequests is a list of dictionaries/table
 / example:
-/ (
-/   `changeType`s3Path`dbPath!("PUT";"s3://bucket/db/2020.01.02/";"/2020.01.02/");
-/   `changeType`s3Path`dbPath!("PUT";"s3://bucket/db/sym";"/");
-/   `changeType`s3Path!("DELETE";"/2020.01.01/")
-/  )
+/   (
+/     `changeType`s3Path`dbPath!("PUT";"s3://bucket/db/2020.01.02/";"/2020.01.02/");
+/     `changeType`s3Path`dbPath!("PUT";"s3://bucket/db/sym";"/");
+/     `changeType`dbPath!("DELETE";"/2020.01.01/")
+/   )
 create_kx_changeset:{[databaseName;changeRequests]
    $[databaseName~"";databaseName:prefs`databaseName;];
    jsonReqs:.j.j changeRequests;
    finspace_cli "create-kx-changeset --database-name ",databaseName," --change-requests ",escape jsonReqs
+ }
+
+/ https://docs.aws.amazon.com/finspace/latest/userguide/interacting-with-kdb-loading-code.html
+/ a staging S3 bucket needs to be set before calling this function
+/ the staging bucket must have the same permissions as a bucket used for changeset creation
+/ allowing the finspace.amazonaws.com service to perform actions s3:GetObject, s3:GetObjectTagging, and s3:ListBucket
+/ example:
+/   .aws.set_prefs[(enlist `stagingS3Bucket)!enlist "s3://myStagingS3Bucket"]
+/ changeRequests is a list of dictionaries/table with the list of change requests with 3 columns/keys:
+/   input_path – The input path of the local file system directory or file to ingest as a Managed kdb changeset
+/   database_path – The target database destination path of the Managed kdb changeset
+/   change_type – The type of the Managed kdb changeset. It can be either "PUT" or "DELETE"
+/ example:
+/   ([] 
+/     input_path: ("/opt/kx/app/scratch/2023.01.01/";"/opt/kx/app/scratch/sym"); 
+/     database_path: ("/2023.01.01/";"/"); 
+/     change_type: ("PUT";"PUT")
+ /  )
+create_changeset:{[databaseName;changeRequests]
+   / upload local files to the staging bucket
+   {
+      $[
+         "PUT"~x`change_type;
+         [
+            sp:stage x`database_path;
+            cli "s3 cp ", x[`input_path]," ",sp,$[last "/" = x`input_path;" --recursive";""];
+         ]
+         ;
+      ]
+   } 
+   each changeRequests;
+   / create the change request structure for the public API 
+   pubCR: 
+      {
+         ((`changeType`dbPath)!x[`change_type`database_path]),
+         $[
+            "PUT"~x`change_type;
+            (enlist `s3Path)!enlist stage x`database_path;
+            ()!()
+         ]
+      } 
+      each changeRequests;
+   / invoke the public API
+   res:create_kx_changeset[databaseName;pubCR];
+   (`id`status)!(res`changesetId;res`status)
+ }
+
+/ empty the staging s3 bucket
+cleanup_s3_staging:{[]
+   cli "s3 rm ",stage "/"," --recursive"
  }
 
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/create-kx-cluster.html 
@@ -297,19 +348,20 @@ connect_to_cluster:{[clusterName;userName]
 / Public Wait API
 / ---------------
 
-/ calls the function every 20 milliseconds until
-/ it returns a dictionary with the expected status in the status key
+/ calls the provided function with the given arguments at the specified frequency until
+/ it returns a dictionary with the value for status key matching one of the expected statuses
 / or it times out
-/ example: .aws.wait_for_status[{.aws.get_kx_cluster["Name"]},"Ready",30:00] 
-wait_for_status:{[function;status;frequency;timeout]
-  res:function[];
+/ example: .aws.wait_for_status[.aws.get_kx_cluster;enlist "Name";("COMPLETED";"FAILED");00:00:20;30:00] 
+wait_for_status:{[function;args;statuses;frequency;timeout]
+  res:function . args;
   st:.z.t;
   l:0;
-  while [(timeout>ti:.z.t-st) & not status like res`status; 
+  $[10h=type statuses;statuses:enlist statuses;]
+  while [(timeout>ti:.z.t-st) & not (res`status) in statuses; 
      $[frequency<=ti-l;
          (
             l:ti;
-            res:function[]; 
+            res:function . args; 
             show "Status: ", (res`status), " waited: ", string(ti)
          );
      ]
@@ -391,6 +443,10 @@ escape:{[s]
 
 merge_props:{[properties]
    $[0h=type properties;sv["";properties];properties]
+ }
+
+stage:{[dbPath]
+   prefs[`stagingS3Bucket],dbPath
  }
 
 / ---------------------------
