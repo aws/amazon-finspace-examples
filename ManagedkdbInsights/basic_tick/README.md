@@ -96,7 +96,7 @@ Create an HDB to service queries of the hdb database (basictickdb). Deployed to 
 - Cluster started with hdbmkdb.q script
 
 ### 3. Create Real-Time Database (RDB) Cluster 
-Create an RDB on the same database (basictickdb) as the HDB, the database does not require any cache but having the database ensures the database and its sym file will be in the /opt/kx/app/db/basictickdb directory of the cluster.
+Create an RDB on the same database (basictickdb) as the HDB. There is no cache for RDB databases.
 
 **Notebook:** [create_RDB.ipynb](create_RDB.ipynb)    
 
