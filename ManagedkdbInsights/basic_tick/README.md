@@ -103,12 +103,11 @@ Create an RDB on the same database (basictickdb) as the HDB. There is no cache f
 - Code in zip deployed on cluster (part of creation)
 - Database found in /opt/kx/app/db/basictickdb
 - Cluster started with rdbmkdb.q script
-- Cluster knows which tp to connect to from the rdbmkdb.q script's tphostfile argument
-  - Be sure the file is part of the zipfile deployed with the code
-  - The filename *cannot* have -._ in the name (e.g. GOOD: tickerplant, BAD: tickerplant.ini)
+- Cluster knows which tp to connect to from the rdbmkdb.q script's tp argument (host:port)
+  - This is defined as TP variable found in env.py
 
 ### 4. Create Gateways (GW) Cluster
-Creaßte a Gateway cluster with create_GW notebook that will connect to and query across the named RDB and HDB clusters.
+Create a Gateway cluster with create_GW notebook that will connect to and query across the named RDB and HDB clusters.
 
 **Notebook:** [create_GW.ipynb](create_GW.ipynb)    
 

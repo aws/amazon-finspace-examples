@@ -21,7 +21,6 @@ KDB_USERNAME="bob"
 
 # TP
 TP=":172.31.22.143:5000"
-TP_HOSTFILE = "tickerplant"
 
 # Access Variables
 AWS_ACCESS_KEY_ID=""
