@@ -58,6 +58,7 @@ list_kx_clusters_full:{[]
 / see https://docs.aws.amazon.com/finspace/latest/userguide/interacting-with-kdb-loading-code.html
 list_kx_clusters:{[]
    clusters: list_kx_clusters_full[];
+   $[not `clusterDescription in cols clusters;clusters:update clusterDescription:(count clusters)#enlist"" from clusters;];
    select cluster_name: clusterName, status, cluster_type:clusterType, description:clusterDescription from clusters
  }
 
@@ -291,7 +292,7 @@ update_kx_database:{[databaseName;properties]
 /     .aws.update_kx_cluster_databases[
 /        "MyCluster";
 /        .aws.sdbs[.aws.db["MyDB";"osSoXB58eSXuDXLZFTCHyg";.aws.cache["";"/"]]];
-/        .aws.sdep"ROLLING"
+/        .aws.sdep["ROLLING"]
 /     ]
 update_kx_cluster_databases:{[clusterName;databases;properties]
    $[clusterName~"";clusterName:prefs`clusterName;];
