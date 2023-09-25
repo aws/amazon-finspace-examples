@@ -371,6 +371,18 @@ wait_for_status:{[function;args;statuses;frequency;timeout]
    res 
  }
 
+/ ---------------
+/ Public Initialization API
+/ ---------------
+
+/ This function is provided to keep compatibility with the library within FinSpace
+/ see https://docs.aws.amazon.com/finspace/latest/userguide/interacting-with-kdb-loading-code.html
+/ here, it logs a statement about what would have happened if it were called on an actual cluster,
+/ but has no other effect.
+stop_current_kx_cluster_creation:{[message]
+  show "Cluster would be put in the CREATE_FAILED state if called from initialization script."
+  }
+
 / ----------------
 / Helper Functions
 / ----------------
