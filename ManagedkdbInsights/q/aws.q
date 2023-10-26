@@ -479,7 +479,10 @@ cache:{[cacheType;dbPaths]
 db:{[databaseName;changesetId;caches]
    $[databaseName~"";databaseName:prefs`databaseName;];
    $[99h=type caches;caches:enlist caches;]; 
-   `databaseName`changesetId`cacheConfigurations!(databaseName;changesetId;caches)
+   db_config: `databaseName`changesetId`cacheConfigurations!(databaseName;changesetId;caches);
+   $[changesetId~""; db_config: db_config _ `changesetId;];
+   $[caches~""; db_config: db_config _ `cacheConfigurations;];
+   db_config
  }
 
 / build a string with a list of databases for functions that require it
