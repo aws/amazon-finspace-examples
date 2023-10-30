@@ -481,7 +481,7 @@ db:{[databaseName;changesetId;caches]
    $[99h=type caches;caches:enlist caches;]; 
    db_config: `databaseName`changesetId`cacheConfigurations!(databaseName;changesetId;caches);
    $[changesetId~""; db_config: db_config _ `changesetId;];
-   $[caches~""; db_config: db_config _ `cacheConfigurations;];
+   $[caches~(); db_config: db_config _ `cacheConfigurations;];
    db_config
  }
 
