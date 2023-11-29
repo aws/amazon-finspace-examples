@@ -1,5 +1,4 @@
 show "GW: START"
-show system "pwd"
 
 show "Command Line Arguments..."
 
@@ -7,36 +6,22 @@ params:.Q.opt .z.X
 show params
 
 / read in params
-dbname:first params`dbname
-codebase:first params`codebase
 rdb_name:first params`rdb_name
 hdb_name:first params`hdb_name
 
-/ assign paths
-app_path: "/opt/kx/app"
-
-dbpath: app_path, "/db/", dbname
-codepath: app_path, "/code/", codebase
-
-/ If database exists, mount it
-$[count key hsym `$dbpath;[ show "loading database: ", dbpath; system "l ", dbpath;];
-    [show "no database at: ", dbpath;]]
-
-/ if code directory exists, cd to it
-$[count key hsym `$codepath;[ show "cd to code directory: ", codepath; system "cd ", codepath;];
-    [show "no code at: ", codepath;]];
+/ cd to code directory
+\cd /opt/kx/app/code
 
 / BEGIN load libraries relative to the codepath
 
-/ example gateway process
-
-/ load the connect library
 \l connectmkdb.q
 
-/This lib should not be compiled as has func to send down the handle
+/ This lib should not be compiled as it has func to send down the handle
 \l funcDownHandle.q
 
-/func to query gw with to dispact to random rdb and hdb
+/ END load libraries
+
+/ func to query gw with to dispact to random rdb and hdb
 queryData:{[table;syms]
 
     targets:.gw.getTargets[];
@@ -80,7 +65,7 @@ init:{[hdb_name; rdb_name]
 
     .gw.connectToDataNodes[zx];
 
-    .z.ts:{[]
+    .awscust.z.ts{[]
         /If not all nodes connected - attempt to reconnect
         if[not all .conn.procs`connected;
             show"Attempting to connect to disconnected data nodes...";
@@ -91,7 +76,7 @@ init:{[hdb_name; rdb_name]
             ];
         };
 
-    .z.pc:.conn.handleDrop;
+    .awscust.z.pc:.conn.handleDrop;
 
     /Attempt recon every 10s
     system"t 10000";
@@ -104,11 +89,4 @@ reinit:{[hdb_name; rdb_name]
 
 init[hdb_name; rdb_name]
 
-/ must be in this path for db reads to work
-system "cd /opt/kx"
-
-/ count partitioned tables
-count each value each tables[]
-
-show "HDB: DONE"
-show system "pwd"
+show "GW: DONE"

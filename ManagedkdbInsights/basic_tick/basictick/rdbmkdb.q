@@ -1,7 +1,5 @@
-//Basic rdb process
-
+/ Basic rdb process
 show "RDB: START"
-show system "pwd"
 
 show "Command Line Arguments..."
 
@@ -10,42 +8,32 @@ show params
 
 / read in params
 dbname:first params`dbname
-codebase:first params`codebase
 tphostfile:first params`tphostfile
 tp:first params`tp
 
-/ assign paths
-app_path: "/opt/kx/app"
-
-dbpath: app_path, "/db/", dbname
-codepath: app_path, "/code/", codebase
-
-/ If database exists, mount it
-$[count key hsym `$dbpath;[ show "loading database: ", dbpath; system "l ", dbpath;];
-    [show "no database at: ", dbpath;]]
-
-/ if code directory exists, cd to it
-$[count key hsym `$codepath;[ show "cd to code directory: ", codepath; system "cd ", codepath;];
-    [show "no code at: ", codepath;]];
-
-/----
-/ What should also come from the command line
-/tp: read0`$tphostfile
-/cmdline: raze (enlist "-tp"; `$tp)
 cmdline: ("-tp"; tp)
 show cmdline
-/----
 
-/ BEGIN load libraries relative to the codepath
+/ dbpath
+dbpath: "/opt/kx/app/db/", dbname
 
-/Load in lib for querying data and example schema
+/ If database exists, mount it
+$[count key hsym `$dbpath;[ show "loading database: ", dbpath; .Q.l `$dbpath;];
+    [show "no database at: ", dbpath;]]
+
+/ cd to code directory
+\cd /opt/kx/app/code
+
+/ BEGIN load libraries relative to the code directory
+
+/ Load in lib for querying data and example schema
 \l connectmkdb.q
 \l query.q
 \l example.schema.q
 
 / END load libraries
 
-/set upd func
+/ set upd func
 upd:upsert;
 
 .rdb.subToTable:{[tpHandle;table;syms]
@@ -59,26 +47,26 @@ upd:upsert;
     }
 
 .rdb.establishTpConnection:{[zx]
-    /Attempt tp connect to tp. If success sub to tables and turn off timer
+    / Attempt tp connect to tp. If success sub to tables and turn off timer
     if[.conn.connectToProcs[`tp;zx];
         show"connected to tp";
         .rdb.onTpConnect[exec first handle from .conn.procs where process=`tp];
-        .z.ts:{};
+        .awscust.z.ts:{};
         .rdb.tpConnectWait:1;
         :()
         ];
 
-    /If could not connect to tp, increment wait timer by second (backoff) and set to reconnect.
+    / If could not connect to tp, increment wait timer by second (backoff) and set to reconnect.
     .rdb.tpConnectWait+:1;
-    .z.ts:{[x;zx].rdb.establishTpConnection[zx]}[;zx];
+    .awscust.z.ts:{[x;zx].rdb.establishTpConnection[zx]}[;zx];
     show"Could not establish connection to tp waiting ",string[.rdb.tpConnectWait]," seconds";
     system"t ",string 1000* .rdb.tpConnectWait;
     }
 
 
 init:{[zx]
-    /if handle closes mark it in conn tab and set to reconnect
-    .z.pc:{[h;zx]
+    / if handle closes mark it in conn tab and set to reconnect
+    .awscust.z.pc:{[h;zx]
         .conn.handleDrop[h];
         .rdb.establishTpConnection[zx];
         }[;zx];
@@ -95,8 +83,4 @@ init[cmdline]
 / must be in this path for db reads to work
 system "cd /opt/kx"
 
-/ count partitioned tables
-count each value each tables[]
-
 show "RDB: DONE"
-show system "pwd"
