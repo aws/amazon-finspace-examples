@@ -102,7 +102,7 @@ res:.aws.create_kx_cluster[
     (
         .aws.saz[AZ_ID];
         .aws.svpc[VPC_ID;SECURITY_GROUP;SUBNET_ID;""];
-        .aws.sdbs[ .aws.db[DB_NAME;changesetId; .aws.cache["CACHE_1000";"/"]] ];
+        .aws.sdbs[ .aws.db[DB_NAME;changesetId; .aws.cache["CACHE_1000";"/"]; ""] ];
         .aws.scaches[.aws.ccache["CACHE_1000";1200]];
         .aws.scode[S3_BUCKET;CODE_PATH;""];
         .aws.sscript["init.q"];

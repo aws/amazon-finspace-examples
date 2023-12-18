@@ -291,7 +291,7 @@ update_kx_database:{[databaseName;properties]
 / example: 
 /     .aws.update_kx_cluster_databases[
 /        "MyCluster";
-/        .aws.sdbs[.aws.db["MyDB";"osSoXB58eSXuDXLZFTCHyg";.aws.cache["";"/"]]];
+/        .aws.sdbs[.aws.db["MyDB";"osSoXB58eSXuDXLZFTCHyg";.aws.cache["";"/"]; ""]];
 /        .aws.sdep["ROLLING"]
 /     ]
 update_kx_cluster_databases:{[clusterName;databases;properties]
