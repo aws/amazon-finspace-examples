@@ -476,12 +476,13 @@ cache:{[cacheType;dbPaths]
 
 / build a database argument for functions that require it
 / caches is a dictionary or list of dictionaries each built by .aws.cache
-db:{[databaseName;changesetId;caches]
+db:{[databaseName;changesetId;caches; dataviewName]
    $[databaseName~"";databaseName:prefs`databaseName;];
    $[99h=type caches;caches:enlist caches;]; 
-   db_config: `databaseName`changesetId`cacheConfigurations!(databaseName;changesetId;caches);
+   db_config: `databaseName`changesetId`cacheConfigurations`dataviewName!(databaseName;changesetId;caches;dataviewName);
    $[changesetId~""; db_config: db_config _ `changesetId;];
    $[caches~(); db_config: db_config _ `cacheConfigurations;];
+   $[dataviewName~""; db_config: db_config _ `dataviewName;];
    db_config
  }
 
