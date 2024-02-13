@@ -97,19 +97,37 @@ def list_kx_changesets(client, databaseName, environmentId:str=None):
 def has_database(client, databaseName, environmentId: str=None):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
-        
-    has_database=True
+
+    has_database = True
 
     try:
         resp = client.get_kx_database(environmentId=environmentId, databaseName=databaseName)
         if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
-                sys.stderr.write("Error:\n {resp}")
+            sys.stderr.write("Error:\n {resp}")
         else:
             resp.pop('ResponseMetadata', None)
     except client.exceptions.ResourceNotFoundException:
-        has_database=False
-        
+        has_database = False
+
     return has_database
+
+
+def has_cluster(client, clusterName, environmentId: str = None):
+    if environmentId is None:
+        environmentId = get_kx_environment_id(client)
+
+    has_cluster = True
+
+    try:
+        resp = client.get_kx_cluster(environmentId=environmentId, clusterName=clusterName)
+        if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+            sys.stderr.write("Error:\n {resp}")
+        else:
+            resp.pop('ResponseMetadata', None)
+    except client.exceptions.ResourceNotFoundException:
+        has_cluster = False
+
+    return has_cluster
 
 
 def get_kx_environment(client, environmentId: str=None):
@@ -282,7 +300,7 @@ def get_kx_cluster(client, clusterName: str, environmentId:str=None):
         environmentId = get_kx_environment_id(client)
 
     try:
-        resp = client.get_kx_environment(environmentId=environmentId)
+        resp = client.get_kx_cluster(environmentId=environmentId, clusterName=clusterName)
     except client.exceptions.ResourceNotFoundException:
         return None
 
