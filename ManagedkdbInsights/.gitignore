@@ -1,6 +1,5 @@
 # Project related
 hdb/
-*.zip
 pdfs/
 
 basic_tick/env1.py
