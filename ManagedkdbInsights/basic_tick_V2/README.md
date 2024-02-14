@@ -14,7 +14,7 @@ This notebook performs the following steps to setup and run all the kdb processe
 
 1. Create and Populate a Database
 2. Create a Scaling Group
-3. Create a shared volume
+3. Create a Shared Volume
 4. Create a Dataview of the Database on the shared volume
 5. Create Cluster: Tickerplant (TP)
 6. Create Cluster: Historical Database (HDB)
