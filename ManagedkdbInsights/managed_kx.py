@@ -265,7 +265,7 @@ def wait_for_cluster_status(client, environmentId:str, clusterName: str, status:
             return None
 
         if this_cluster is None:
-            print(f"cluster:{clusterName} not found")
+            print(f"cluster: {clusterName} not found")
             return None
 
         this_status = this_cluster['status']
@@ -294,6 +294,165 @@ def wait_for_cluster_status(client, environmentId:str, clusterName: str, status:
 
     print(f"No Cluster after {datetime.timedelta(seconds=total_wait)}")
 
+    
+def wait_for_volume_status(client, environmentId:str, volumeName: str, status: str='ACTIVE', sleep_sec=30, max_wait_sec=3600, show_wait=False):
+    if environmentId is None:
+        environmentId = get_kx_environment_id(client)
+
+    """
+    Function polls until volume is in desired status
+    """
+    total_wait = 0
+
+    while True and total_wait < max_wait_sec:
+        try:
+            resp = client.get_kx_volume(environmentId = environmentId, volumeName=volumeName)
+
+            if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                    sys.stderr.write("Error:\n {resp}")
+            else:
+                resp.pop('ResponseMetadata', None)
+
+            this_volume = resp
+        except client.exceptions.ResourceNotFoundException:
+            return None
+
+        if this_volume is None:
+            print(f"Volume: {volumeName} not found")
+            return None
+
+        this_status = this_volume['status']
+
+        if this_status.upper() == "CREATE_FAILED":
+            print(f"Volume: {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+
+            error_info = resp.get('errorInfo', None)
+            if error_info is not None:
+                print(f"Type: {error_info.get('errorType', '')}")
+                print(f"Message: {error_info.get('errorMessage', '')}")
+                print(error_info)
+
+#            print(resp)
+            return None
+        elif this_status.upper() != status.upper():
+            if show_wait:
+                print(f"Volume: {volumeName} status is {this_status}, total wait {datetime.timedelta(seconds=total_wait)}, waiting {sleep_sec} sec ...")
+            time.sleep(sleep_sec)
+            total_wait = total_wait + sleep_sec
+            continue
+        else:
+            if show_wait:
+                print(f"Volume: {volumeName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+            return this_volume
+
+    print(f"No Volume after {datetime.timedelta(seconds=total_wait)}")
+
+    
+def wait_for_scaling_group_status(client, environmentId:str, scalingGroupName: str, status: str='ACTIVE', sleep_sec=30, max_wait_sec=3600, show_wait=False):
+    if environmentId is None:
+        environmentId = get_kx_environment_id(client)
+
+    """
+    Function polls until volume is in desired status
+    """
+    total_wait = 0
+
+    while True and total_wait < max_wait_sec:
+        try:
+            resp = client.get_kx_scaling_group(environmentId = environmentId, scalingGroupName=scalingGroupName)
+
+            if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                    sys.stderr.write("Error:\n {resp}")
+            else:
+                resp.pop('ResponseMetadata', None)
+
+            this_sg = resp
+        except client.exceptions.ResourceNotFoundException:
+            return None
+
+        if this_sg is None:
+            print(f"Scaling Group: {scalingGroupName} not found")
+            return None
+
+        this_status = this_sg['status']
+
+        if this_status.upper() == "CREATE_FAILED":
+            print(f"Scaling Group: {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+
+            error_info = resp.get('errorInfo', None)
+            if error_info is not None:
+                print(f"Type: {error_info.get('errorType', '')}")
+                print(f"Message: {error_info.get('errorMessage', '')}")
+                print(error_info)
+
+#            print(resp)
+            return None
+        elif this_status.upper() != status.upper():
+            if show_wait:
+                print(f"Scaling Group: {scalingGroupName} status is {this_status}, total wait {datetime.timedelta(seconds=total_wait)}, waiting {sleep_sec} sec ...")
+            time.sleep(sleep_sec)
+            total_wait = total_wait + sleep_sec
+            continue
+        else:
+            if show_wait:
+                print(f"Scaling Group: {scalingGroupName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+            return this_sg
+
+    print(f"No Scaling Group after {datetime.timedelta(seconds=total_wait)}")
+
+    
+def wait_for_dataview_status(client, environmentId:str, databaseName: str, dataviewName: str, status: str='ACTIVE', sleep_sec=30, max_wait_sec=3600, show_wait=False):
+    if environmentId is None:
+        environmentId = get_kx_environment_id(client)
+
+    """
+    Function polls until datavierw is in desired status
+    """
+    total_wait = 0
+
+    while True and total_wait < max_wait_sec:
+        try:
+            resp = client.get_kx_dataview(environmentId = environmentId, databaseName=databaseName, dataviewName=dataviewName)
+
+            if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                    sys.stderr.write("Error:\n {resp}")
+            else:
+                resp.pop('ResponseMetadata', None)
+
+            this_resp = resp
+        except client.exceptions.ResourceNotFoundException:
+            return None
+
+        if this_resp is None:
+            print(f"Dataview: {dataviewName} not found")
+            return None
+
+        this_status = this_resp['status']
+
+        if this_status.upper() == "CREATE_FAILED":
+            print(f"Dataview: {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+
+            error_info = resp.get('errorInfo', None)
+            if error_info is not None:
+                print(f"Type: {error_info.get('errorType', '')}")
+                print(f"Message: {error_info.get('errorMessage', '')}")
+                print(error_info)
+
+#            print(resp)
+            return None
+        elif this_status.upper() != status.upper():
+            if show_wait:
+                print(f"Dataview: {dataviewName} status is {this_status}, total wait {datetime.timedelta(seconds=total_wait)}, waiting {sleep_sec} sec ...")
+            time.sleep(sleep_sec)
+            total_wait = total_wait + sleep_sec
+            continue
+        else:
+            if show_wait:
+                print(f"Dataview: {dataviewName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+            return this_resp
+
+    print(f"No Dataview after {datetime.timedelta(seconds=total_wait)}")
+    
 
 def get_kx_cluster(client, clusterName: str, environmentId:str=None):
     if environmentId is None:
