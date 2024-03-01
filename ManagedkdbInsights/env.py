@@ -1,29 +1,27 @@
-ACCOUNT_ID="123456789012"
-ENV_ID="xdbujsadpl6owu7kyzxm66"
+ACCOUNT_ID=""
+ENV_ID=""
 
-VPC_ID="vpc-00c87e99505f8b5bc"
-SECURITY_GROUPS=["sg-0f98fb0accef94f9e"]
-SUBNET_IDS=["subnet-0cb15b7de6cb72151"] # in AZ_ID
+VPC_ID=""
+SECURITY_GROUPS=[""]
+SUBNET_IDS=[""] # in AZ_ID
 AZ_MODE="SINGLE"
-AZ_ID="use1-az4"
+AZ_ID="use1-az6"
 
-#S3_BUCKET="kdb-demo-123456789012"
-S3_BUCKET="kdb-demo-123456789012-kms"
-
-S3_CODE_BUCKET="kdb-demo-069735623166"
-
-EXECUTION_ROLE=f"arn:aws:iam::{ACCOUNT_ID}:role/kdb-cluster-user"
+S3_BUCKET=""
 
 ENDPOINT_URL=None
 
 # USER
-KDB_USERNAME="bob"
+KDB_USERNAME=""
 
-# TP
-TP=":172.31.22.143:5000"
+# IAM Role
+EXECUTION_ROLE=f"arn:aws:iam::{ACCOUNT_ID}:role/kdb-all-user"
 
 # Access Variables
+AWS_ACCESS_KEY_ID=None
+AWS_SECRET_ACCESS_KEY=None
+AWS_SESSION_TOKEN=None
+
 AWS_ACCESS_KEY_ID=""
 AWS_SECRET_ACCESS_KEY=""
 AWS_SESSION_TOKEN=""
-
