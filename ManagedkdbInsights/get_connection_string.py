@@ -24,5 +24,24 @@ if __name__ == '__main__':
                                         clusterName=args.cluster, 
                                         userName=args.username, 
                                         boto_session=session)
-    
+
+    print("Single String")
     print(conn_str)
+
+    print(80*"-")
+    print("In Parts")
+    print(80*"-")
+
+    conn_parts = conn_str.split(":")
+
+    host=conn_parts[2].strip("/")
+    port = int(conn_parts[3])
+    username=conn_parts[4]
+    password=conn_parts[5]
+
+    print(f"""
+HOST: {host}
+PORT: {port}
+USERNAME: {username}
+PASSWORD:
+{password}""")
