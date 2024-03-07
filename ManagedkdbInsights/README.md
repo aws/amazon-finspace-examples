@@ -1,8 +1,10 @@
 # Projects
 - [basic_tick](basic_tick)
+- [basic_tick_V2](basic_tick_V2)
 - [boto](boto)
 - [q](q)
 - [HDB Backup](hdb_backup)
+- [TorQ](torq)
 
 # Important notes
 
