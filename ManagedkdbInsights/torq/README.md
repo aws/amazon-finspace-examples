@@ -10,6 +10,7 @@ Reference: [TorQ Amazon FinSpace Starter Pack](https://dataintellecttech.github.
 - Run the [create_all](create_all.ipynb) notebook
   - Creates all resources and starts all clusters
 - Use PyKX to query the gateway in the [pykx_query_all](pykx_query_all.ipynb) notebook
+- Updatecode across all clsuters with the [refresh_code](refresh_code.ipynb) notebook
 
 To clean up and delete all resources, run the [delete_all](delete_all.ipynb) notebook.
 

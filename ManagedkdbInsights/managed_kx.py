@@ -294,6 +294,21 @@ def wait_for_cluster_status(client, environmentId:str, clusterName: str, status:
 
     print(f"No Cluster after {datetime.timedelta(seconds=total_wait)}")
 
+
+def get_kx_volume(client, environmentId:str, volumeName: str):
+    resp = None
+    try:
+        resp = client.get_kx_volume(environmentId = environmentId, volumeName=volumeName)
+
+        if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                sys.stderr.write("Error:\n {resp}")
+        else:
+            resp.pop('ResponseMetadata', None)
+    except client.exceptions.ResourceNotFoundException:
+        resp=None
+
+    return resp
+    
     
 def wait_for_volume_status(client, environmentId:str, volumeName: str, status: str='ACTIVE', sleep_sec=30, max_wait_sec=3600, show_wait=False):
     if environmentId is None:
@@ -305,18 +320,8 @@ def wait_for_volume_status(client, environmentId:str, volumeName: str, status: s
     total_wait = 0
 
     while True and total_wait < max_wait_sec:
-        try:
-            resp = client.get_kx_volume(environmentId = environmentId, volumeName=volumeName)
-
-            if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
-                    sys.stderr.write("Error:\n {resp}")
-            else:
-                resp.pop('ResponseMetadata', None)
-
-            this_volume = resp
-        except client.exceptions.ResourceNotFoundException:
-            return None
-
+        this_volume = get_kx_volume(client, environmentId = environmentId, volumeName=volumeName)
+        
         if this_volume is None:
             print(f"Volume: {volumeName} not found")
             return None
@@ -347,7 +352,24 @@ def wait_for_volume_status(client, environmentId:str, volumeName: str, status: s
 
     print(f"No Volume after {datetime.timedelta(seconds=total_wait)}")
 
+
+def get_kx_scaling_group(client, environmentId:str, scalingGroupName: str):
+    resp = None
     
+    try:
+        resp = client.get_kx_scaling_group(environmentId = environmentId, scalingGroupName=scalingGroupName)
+
+        if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                sys.stderr.write("Error:\n {resp}")
+        else:
+            resp.pop('ResponseMetadata', None)
+
+    except client.exceptions.ResourceNotFoundException:
+        resp=None
+                         
+    return resp
+
+
 def wait_for_scaling_group_status(client, environmentId:str, scalingGroupName: str, status: str='ACTIVE', sleep_sec=30, max_wait_sec=3600, show_wait=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
@@ -358,17 +380,7 @@ def wait_for_scaling_group_status(client, environmentId:str, scalingGroupName: s
     total_wait = 0
 
     while True and total_wait < max_wait_sec:
-        try:
-            resp = client.get_kx_scaling_group(environmentId = environmentId, scalingGroupName=scalingGroupName)
-
-            if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
-                    sys.stderr.write("Error:\n {resp}")
-            else:
-                resp.pop('ResponseMetadata', None)
-
-            this_sg = resp
-        except client.exceptions.ResourceNotFoundException:
-            return None
+        this_sg = get_kx_scaling_group(client=client, environmentId = environmentId, scalingGroupName=scalingGroupName)
 
         if this_sg is None:
             print(f"Scaling Group: {scalingGroupName} not found")
@@ -400,6 +412,22 @@ def wait_for_scaling_group_status(client, environmentId:str, scalingGroupName: s
 
     print(f"No Scaling Group after {datetime.timedelta(seconds=total_wait)}")
 
+
+def get_kx_dataview(client, environmentId:str, databaseName: str, dataviewName: str):
+    resp = None
+    try:
+        resp = client.get_kx_dataview(environmentId = environmentId, databaseName=databaseName, dataviewName=dataviewName)
+
+        if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                sys.stderr.write("Error:\n {resp}")
+        else:
+            resp.pop('ResponseMetadata', None)
+    except client.exceptions.ResourceNotFoundException:
+        resp=None
+
+    return resp
+    
+    
     
 def wait_for_dataview_status(client, environmentId:str, databaseName: str, dataviewName: str, status: str='ACTIVE', sleep_sec=30, max_wait_sec=3600, show_wait=False):
     if environmentId is None:
@@ -411,17 +439,7 @@ def wait_for_dataview_status(client, environmentId:str, databaseName: str, datav
     total_wait = 0
 
     while True and total_wait < max_wait_sec:
-        try:
-            resp = client.get_kx_dataview(environmentId = environmentId, databaseName=databaseName, dataviewName=dataviewName)
-
-            if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
-                    sys.stderr.write("Error:\n {resp}")
-            else:
-                resp.pop('ResponseMetadata', None)
-
-            this_resp = resp
-        except client.exceptions.ResourceNotFoundException:
-            return None
+        this_resp = get_kx_dataview(client=client, environmentId = environmentId, databaseName=databaseName, dataviewName=dataviewName)
 
         if this_resp is None:
             print(f"Dataview: {dataviewName} not found")
@@ -458,15 +476,17 @@ def get_kx_cluster(client, clusterName: str, environmentId:str=None):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 
+    resp=None
     try:
         resp = client.get_kx_cluster(environmentId=environmentId, clusterName=clusterName)
-    except client.exceptions.ResourceNotFoundException:
-        return None
 
-    if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
-            sys.stderr.write("Error:\n {resp}")
-    else:
-        resp.pop('ResponseMetadata', None)
+        if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                sys.stderr.write("Error:\n {resp}")
+        else:
+            resp.pop('ResponseMetadata', None)
+    except client.exceptions.ResourceNotFoundException:
+        resp=None
+        return resp
 
     resp = resp.get('environment', resp)
 
@@ -581,8 +601,24 @@ def print_clusters(client, print_empty=False, environmentId:str=None):
         svc_details = resp
         
         print(f"{svc_name.ljust(20)} {svc_details['status'].ljust(13)} {svc_details.get('connectionString', '')}")    
+
+
+def get_kx_database(client, environmentId:str, databaseName: str):
+    resp = None
+    try:
+        resp = client.get_kx_database(environmentId = environmentId, databaseName=databaseName)
+
+        if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                sys.stderr.write("Error:\n {resp}")
+        else:
+            resp.pop('ResponseMetadata', None)
+    except client.exceptions.ResourceNotFoundException:
+        resp=None
+
+    return resp
         
-def dump_database(client, db_name:str, changset_details=False, environmentId:str=None):
+        
+def dump_database(client, databaseName:str, changset_details=False, environmentId:str=None):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 

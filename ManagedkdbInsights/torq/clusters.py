@@ -1,7 +1,11 @@
+SCALING_GROUP_NAME="SCALING_GROUP_torq"
+VOLUME_NAME="SHARED_torq"
+DB_NAME="finspace-database"
+DBVIEW_NAME=f"{DB_NAME}_DBVIEW"
 
 clusters = [
     {
-        "name": "discovery",
+        "name": "discovery1",
          "type": "GP",
          "init": "TorQ-Amazon-FinSpace-Starter-Pack/finspace_torq.q",
          "args": [
@@ -13,7 +17,7 @@ clusters = [
         ]
     },
     {
-        "name": "rdb",
+        "name": "rdb1",
          "type": "GP",
          "init": "TorQ-Amazon-FinSpace-Starter-Pack/finspace_torq.q",
          "args": [
@@ -25,7 +29,7 @@ clusters = [
         ]
     },
     {
-        "name": "hdb",
+        "name": "hdb1",
          "type": "GP",
          "init": "TorQ-Amazon-FinSpace-Starter-Pack/finspace_torq.q",
          "args": [
@@ -36,27 +40,16 @@ clusters = [
             { 'key': 's', 'value': '4' }, 
         ]
     },
-#    {
-#        "name": "wdb",
-#        "type": "GP",
-#         "init": "TorQ-Amazon-FinSpace-Starter-Pack/finspace_torq.q",
-#         "args": [
-#            { 'key': 'proctype', 'value': 'wdb'}, 
-#            { 'key': 'procname', 'value': 'wdb1' }, 
-#            { 'key': 'jsonlogs', 'value': 'true'}, 
-#            { 'key': 'noredirect', 'value': 'true'}, 
-#        ]
-#    },
     {
         "type": "WAIT",
-        "name": "discovery"
+        "name": "discovery1"
     },
     {
         "type": "WAIT",
-        "name": "rdb"
+        "name": "rdb1"
     },
     {
-        "name": "gateway",
+        "name": "gateway1",
          "type": "GP",
          "init": "TorQ-Amazon-FinSpace-Starter-Pack/finspace_torq.q",
          "args": [
@@ -68,7 +61,7 @@ clusters = [
         ]
     },
     {
-        "name": "feed",
+        "name": "feed1",
          "type": "GP",
          "init": "TorQ-Amazon-FinSpace-Starter-Pack/finspace_torq.q",
          "args": [
@@ -77,6 +70,18 @@ clusters = [
             { 'key': 'jsonlogs', 'value': 'true'}, 
             { 'key': 'noredirect', 'value': 'true'}, 
             { 'key': 's', 'value': '2' }, 
+        ]
+    },
+    {
+        "name": "monitor1",
+         "type": "GP",
+         "init": "TorQ-Amazon-FinSpace-Starter-Pack/finspace_torq.q",
+         "args": [
+            { 'key': 'proctype', 'value': 'monitor'}, 
+            { 'key': 'procname', 'value': 'monitor1' }, 
+            { 'key': 'jsonlogs', 'value': 'true'}, 
+            { 'key': 'noredirect', 'value': 'true'}, 
+            { 'key': 's', 'value': '1' }, 
         ]
     },
 ]    
