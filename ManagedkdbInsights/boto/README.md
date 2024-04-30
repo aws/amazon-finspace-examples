@@ -18,7 +18,7 @@ Creates an HDB cluster using AWS Python boto library.
 [create_cluster_RDB](create_cluster_RDB.ipynb)
 Creates an RDB cluster using AWS Python boto library.
 
-[create_welcome_data](create_welcome_data.ipynb)
+[generate_welcome_data](generate_welcome_data.ipynb)
 q Notebook to generate the hdb database.
 
 [delete_cluster](delete_cluster.ipynb)
