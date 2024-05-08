@@ -5,12 +5,12 @@ Please see the below notebooks for details on how this is accomplished.
 
 ## Notebooks
 [create_all](create_all.ipynb): creates all infra components of the example and populates the managed database with an initially empty table   
-[process_algoseek](process_algoseek.ipynd): Process the TAQ data (as supplied by [AlgoSeek](https://www.algoseek.com/)) into the Managed Database   
+[process_algoseek](process_algoseek.ipynb): Process the TAQ data (as supplied by [AlgoSeek](https://www.algoseek.com/)) into the Managed Database   
 [delete_all](delete_all.ipynb): Deletes all created resources from create_all   
 
 ### Other Files
 [algoseek-marketdata.tar.gz](algoseek-marketdata.tar.gz): Tarball of two days of TAQ data for FAANG tickers    
-[AMZN-100.tar.gz](AMZN-100.tar.gz): 100 TAQ records in csv.gz format for AMZN ticker    
+[AMZN-100.csv.gz](AMZN-100.csv.gz): 100 TAQ records in csv.gz format for AMZN ticker    
 [requirements.txt](requirements.txt): Required Python libraries   
 
 
