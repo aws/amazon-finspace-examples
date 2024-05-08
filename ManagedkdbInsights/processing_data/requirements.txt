@@ -43,7 +43,7 @@ colorama==0.4.4
 colorcet==2.0.6
 constantly==15.1.0
 cookiecutter==1.7.3
-cryptography==3.4.8
+cryptography==42.0.4
 cssselect==1.1.0
 cycler==0.11.0
 cython==0.29.28
