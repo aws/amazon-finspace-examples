@@ -176,7 +176,7 @@ pathspec==0.7.0
 patsy==0.5.2
 pep8==1.7.1
 pexpect==4.8.0
-pillow==9.0.1
+pillow==10.3.0
 pip==24.0
 pkginfo==1.8.2
 plotly==5.6.0
