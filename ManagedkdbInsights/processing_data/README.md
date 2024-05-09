@@ -3,6 +3,12 @@ This example shows how one can lever a Managed kdb Insights cluster to process e
 
 Please see the below notebooks for details on how this is accomplished.
 
+## References
+[FinSpace Managed kdb Insights](https://docs.aws.amazon.com/finspace/latest/userguide/finspace-managed-kdb.html): Service Documentation   
+[FinSpace q API](https://docs.aws.amazon.com/finspace/latest/userguide/interacting-with-kdb-q-apis.html): q API of Service   
+[kdb q](https://code.kx.com/q/ref/): KX q/kdb documentation  
+[kdb PyKX](https://code.kx.com/pykx/2.4/): K PyKX documentation     
+
 ## Notebooks
 [create_all](create_all.ipynb): creates all infra components of the example and populates the managed database with an initially empty table   
 [process_algoseek](process_algoseek.ipynb): Process the TAQ data (as supplied by [AlgoSeek](https://www.algoseek.com/)) into the Managed Database   
