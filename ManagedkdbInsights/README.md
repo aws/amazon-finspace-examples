@@ -1,10 +1,12 @@
 # Projects
-- [basic_tick](basic_tick)
-- [basic_tick_V2](basic_tick_V2)
-- [boto](boto)
-- [q](q)
+- [CSV Processing](processing_data)
+- [Basic Tick V2](basic_tick_V2)
+- [Boto Use Examples](boto)
+- [q Code Examples](q)
 - [HDB Backup](hdb_backup)
 - [TorQ](torq)
+- [Update Cluster](update_cluster)
+
 
 # Important notes
 
@@ -30,7 +32,7 @@ pip freeze > ~/ManagedKdbInsights/requirements.txt
 ```
 
 ## zip creation
-REMEMBER, the zip knows the paths, the filefile's filename dwill determine the directories created when unzipped.
+REMEMBER, the zip knows the paths, the file's filename will determine the directories created when unzipped.
 
 ```
 zip -r -X code.zip code -x '*.ipynb_checkpoints*'

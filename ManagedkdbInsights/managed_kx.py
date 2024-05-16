@@ -88,7 +88,7 @@ def list_kx_changesets(client, databaseName, environmentId:str=None):
     results = resp.get('kxChangesets', [])
 
     while "nextToken" in resp:
-        resp = client.list_kx_changesets(environmentId=environmentId, nextToken=resp['nextToken'])
+        resp = client.list_kx_changesets(environmentId=environmentId, databaseName=databaseName, nextToken=resp['nextToken'])
         results.extend(resp['kxChangesets'])
     
     return results
