@@ -42,7 +42,7 @@ clyent==1.2.2
 colorama==0.4.4
 colorcet==2.0.6
 constantly==15.1.0
-cookiecutter==1.7.3
+cookiecutter==2.1.1
 cryptography==42.0.4
 cssselect==1.1.0
 cycler==0.11.0
