@@ -205,7 +205,7 @@ pyerfa==2.0.0
 pyflakes==2.4.0
 pygments==2.11.2
 pyhamcrest==2.0.2
-pyjwt==2.1.0
+pyjwt==2.4.0
 pykx==2.4.2
 pylint==2.9.6
 pyls-spyder==0.4.0
