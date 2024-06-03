@@ -62,7 +62,7 @@ et_xmlfile==1.1.0
 executing==0.8.3
 filelock==3.6.0
 flake8==4.0.0
-flask==1.1.2
+flask==2.2.5
 fonttools==4.25.0
 frozenlist==1.2.0
 fsspec==2022.2.0
