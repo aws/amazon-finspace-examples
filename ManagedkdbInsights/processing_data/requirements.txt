@@ -291,7 +291,7 @@ traitlets==5.1.1
 twisted==23.10.0
 typed-ast==1.4.3
 typing-extensions==4.8.0
-ujson==5.1.0
+ujson==5.4.0
 unidecode==1.2.0
 urllib3==1.26.18
 w3lib==1.21.0
