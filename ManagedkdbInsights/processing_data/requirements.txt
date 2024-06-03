@@ -288,7 +288,7 @@ toolz==0.11.2
 tornado==6.3.3
 tqdm==4.66.3
 traitlets==5.1.1
-twisted==22.2.0
+twisted==23.10.0
 typed-ast==1.4.3
 typing-extensions==4.8.0
 ujson==5.1.0
