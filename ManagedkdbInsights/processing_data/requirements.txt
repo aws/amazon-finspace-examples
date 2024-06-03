@@ -186,7 +186,7 @@ prometheus_client==0.13.1
 prompt-toolkit==3.0.20
 prompt_toolkit==3.0.20
 protego==0.1.16
-protobuf==3.19.1
+protobuf==3.19.5
 psutil==5.8.0
 ptyprocess==0.7.0
 pure_eval==0.2.2
