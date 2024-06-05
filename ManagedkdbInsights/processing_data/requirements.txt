@@ -203,7 +203,7 @@ pydispatcher==2.0.5
 pydocstyle==6.1.1
 pyerfa==2.0.0
 pyflakes==2.4.0
-pygments==2.11.2
+pygments==2.15.0
 pyhamcrest==2.0.2
 pyjwt==2.4.0
 pykx==2.4.2
