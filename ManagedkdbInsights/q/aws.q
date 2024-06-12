@@ -91,6 +91,12 @@ get_kx_database:{[databaseName]
    finspace_cli "get-kx-database --database-name ",databaseName
  }
 
+/ https://docs.aws.amazon.com/cli/latest/reference/finspace/get-kx-dataview.html
+get_kx_dataview:{[databaseName;dataviewName]
+   $[databaseName~"";databaseName:prefs`databaseName;];
+   finspace_cli "get-kx-dataview --database-name ",databaseName," --dataview-name ",dataviewName
+ }
+
 / https://docs.aws.amazon.com/cli/latest/reference/finspace/get-kx-changeset.html
 get_kx_changeset:{[databaseName;changesetId]
    $[databaseName~"";databaseName:prefs`databaseName;];
@@ -299,6 +305,19 @@ update_kx_cluster_databases:{[clusterName;databases;properties]
    finspace_cli "update-kx-cluster-databases --cluster-name ",clusterName,databases,merge_props properties
  }
 
+/ https://docs.aws.amazon.com/cli/latest/reference/finspace/update-kx-dataview.html
+/ segmentConfigurations is a string built by .aws.sgmtcfgs
+/ example:
+/     .aws.update_kx_dataview[
+/        "example-db"; "example-dataview-name"; "example-changeset-id";
+/        .aws.sgmtcfgs[.aws.sgmtcfg[("/*");"example-volume"]]
+/     ]
+update_kx_dataview:{[databaseName;dataviewName;changesetId;segmentConfigurations]
+   $[databaseName~"";databaseName:prefs`databaseName;];
+   finspace_cli "update-kx-dataview --database-name ",databaseName," --dataview-name ",dataviewName,
+                " --changeset-id ",changesetId,segmentConfigurations
+ }
+
 / -------------------------
 / Public Authorization APIs
 / -------------------------
@@ -465,6 +484,23 @@ stage:{[dbPath]
 / ---------------------------
 / Argument Creation Functions
 / ---------------------------
+
+/ build a segment configuration argument for functions that require it
+sgmtcfg:{[dbPaths;volumeName]
+   $[10h=type dbPaths;dbPaths:enlist dbPaths;];
+   $[-10h=type dbPaths;dbPaths:enlist enlist dbPaths;];
+   seg_config: `dbPaths`volumeName!(dbPaths;volumeName);
+   $[dbPaths~(); seg_config: seg_config _ `dbPaths;];
+   $[volumeName~""; seg_config: seg_config _ `volumeName;];
+   seg_config
+ }
+
+/ build a string with a list of segment configurations for functions that require it
+/ the argument is a dictionary or a list of dictionaries each built by .aws.sgmtcfg
+sgmtcfgs:{[segmentConfigurations]
+   $[99h=type segmentConfigurations;segmentConfigurations:enlist segmentConfigurations;];
+   " --segment-configurations ",escape .j.j segmentConfigurations
+ }
 
 / build a cache argument for functions that require it
 cache:{[cacheType;dbPaths]
