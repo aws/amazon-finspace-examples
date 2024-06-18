@@ -242,7 +242,7 @@ rtree==0.9.7
 ruamel_yaml==0.15.100
 s3transfer==0.10.1
 scikit-image==0.19.2
-scikit-learn==1.0.2
+scikit-learn==1.5.0
 scipy==1.7.3
 scrapy==2.11.2
 seaborn==0.11.2
