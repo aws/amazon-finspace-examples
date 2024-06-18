@@ -293,7 +293,7 @@ typed-ast==1.4.3
 typing-extensions==4.8.0
 ujson==5.4.0
 unidecode==1.2.0
-urllib3==1.26.18
+urllib3==1.26.19
 w3lib==1.21.0
 watchdog==2.1.6
 wcwidth==0.2.5
