@@ -13,6 +13,33 @@ import pandas as pd
 pd.set_option('display.max_colwidth', None)
 
 #
+# Session and Client
+#
+def get_session():
+    # Create AWS Session for working with FinSpace service
+    session=None
+
+    if 'myVar' not in globals():
+        print("Using Defaults ...")
+        # create AWS session: using access variables
+        session = boto3.Session()
+    else:
+        print("Using variables ...")
+        session = boto3.Session(
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+            aws_session_token=AWS_SESSION_TOKEN
+        )
+    
+    return session
+
+def get_client(endpoint_url: str = None):
+    session = get_session()
+    
+    # create finspace client
+    return session.client(service_name='finspace', endpoint_url=endpoint_url)
+
+#
 # Functions
 # ----------------------------------------------------------------------------
 
@@ -93,6 +120,73 @@ def list_kx_changesets(client, databaseName, environmentId:str=None):
     
     return results
 
+def get_kx_changeset(client, environmentId:str, databaseName: str, changesetId:str):
+    resp = None
+    try:
+        resp = client.get_kx_changeset(environmentId=environmentId, databaseName=databaseName, changesetId=changesetId)
+
+        if resp['ResponseMetadata']['HTTPStatusCode'] != 200:
+                sys.stderr.write("Error:\n {resp}")
+        else:
+            resp.pop('ResponseMetadata', None)
+    except client.exceptions.ResourceNotFoundException:
+        resp=None
+
+    return resp
+
+
+def get_all_kx_changesets(client, databaseName, environmentId:str=None):
+    if environmentId is None:
+        environmentId = get_kx_environment_id(client)
+        
+    # get all changesets
+    c_list=list_kx_changesets(client, environmentId=environmentId, databaseName=databaseName)
+
+    # get details on each changeset in the database
+    cd_list = []
+
+    for c in c_list:
+        c_id = c['changesetId']
+        cd = get_kx_changeset(client=client, environmentId=environmentId, databaseName=databaseName, changesetId=c_id)
+
+        cd_list.append(cd)
+
+    # For each changeset, extract/flattend changeRequest
+    part_list = []
+
+    for cs in cd_list:
+        for cr in cs.get('changeRequests', None):
+
+            # anything?
+            if cr is None:
+                continue
+                
+            item = {}
+
+            # get the core items
+            item['status'] = cs['status']
+            item['changesetId'] = cs['changesetId']
+            item['createdTimestamp'] = cs['createdTimestamp']
+            item['activeFromTimestamp'] = cs['activeFromTimestamp']
+            item['lastModifiedTimestamp'] = cs['lastModifiedTimestamp']
+
+            # get the request items
+            item['changeType'] = cr['changeType']
+            item['dbPath'] = cr['dbPath']
+
+            # get the date partition from dbPath
+            dt = None
+            p = cr.get('dbPath', None)
+
+            # has a specific date to parse
+            if p is not None and p[0] == '/' and len(p) == 10:
+                dt = datetime.datetime.strptime(p[1:11],"%Y.%m.%d")
+
+            item['date'] = dt
+
+            part_list.append(item)
+     
+    return part_list
 
 def has_database(client, databaseName, environmentId: str=None):
     if environmentId is None:
