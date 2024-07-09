@@ -310,6 +310,6 @@ xlsxwriter==3.0.3
 yapf==0.31.0
 yarl==1.6.3
 zict==2.0.0
-zipp==3.7.0
+zipp==3.19.1
 zope.interface==5.4.0
 zstd==1.5.4.0
