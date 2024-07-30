@@ -95,21 +95,24 @@ pushChangeset:{[d]
      t@:where `g=attr each t@\:`sym;
      -1 "Downloading latest sym file";
      .aws.get_latest_sym_file[.rdb.database;.rdb.savePath];
-     {.Q.dpft[hsym`$.rdb.savePath;x;`sym;y]}[x] each tables`.;
+     {.Q.dpft[hsym`$.rdb.savePath;x;`sym;y]}[x] each t;
      cid:pushChangeset[x];
+     sleep:{t:.z.p; while[.z.p<t+`second$x;]};
+     sleep 30;
+     dview:wait_for_status[.aws.get_kx_dataview;(.rdb.database;.rdb.dbView);("ACTIVE";"FAILED");00:00:20;30:00];
      updateCluster[.rdb.hdbProc;.rdb.database;.rdb.dbView;"NO_RESTART"];
-     nuke hsym`$.rdb.savePath,string[x];
-     hdel hsym`$.rdb.savePath,"sym";
+     sleep 30;
      res:wait_for_status[.aws.get_kx_cluster;enlist .rdb.hdbProc;("RUNNING";"FAILED");00:00:20;30:00];
      if["FAILED"~res`status;
          -1 "Cluster Failed to Restart - returning early";
         :()
-     ];
-     {x set 0#`.[x]}each tables`.;
+      ];
+     nuke hsym`$.rdb.savePath,string[x];
+     hdel hsym`$.rdb.savePath,"sym";
+     {x set 0#`.[x]}each t;
      @[;`sym;`g#] each t;
-    .Q.gc[];
-
- };
+     .Q.gc[];
+ }
 
 updateCluster:{[cluster;database;dataview;strategy]
   res:.aws.update_kx_cluster_databases[cluster;
