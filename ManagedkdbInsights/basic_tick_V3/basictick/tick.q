@@ -48,7 +48,7 @@ endofday:{end d;d+:1;if[l;hclose l;l::ld d]};
 ts:{if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]};
 
 if[system"t";
- .awscust.ts:{.u.pub'[t;value each t];@[`.;t;@[;`sym;`g#]0#];i::j;.u.ts .z.D};
+ .awscust.z.ts:{.u.pub'[t;value each t];@[`.;t;@[;`sym;`g#]0#];i::j;.u.ts .z.D};
  upd:{[t;x]
  if[not -12=type first first x;if[d<"d"$a:.z.P;.z.ts[]];a:"n"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
  t insert x;if[l;l enlist (`upd;t;x);j+:1];}];
