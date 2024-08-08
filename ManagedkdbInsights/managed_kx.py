@@ -20,11 +20,11 @@ def get_session():
     session=None
 
     if 'myVar' not in globals():
-        print("Using Defaults ...")
+#        print("Using Defaults ...")
         # create AWS session: using access variables
         session = boto3.Session()
     else:
-        print("Using variables ...")
+#        print("Using variables ...")
         session = boto3.Session(
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
@@ -747,6 +747,16 @@ def dump_database(client, databaseName:str, changset_details=False, environmentI
     else:
         display( pd.DataFrame.from_dict(c_set_list) )
 
+
+def parse_connection_string(conn_str: str):
+    conn_parts = conn_str.split(":")
+
+    host=conn_parts[2].strip("/")
+    port = int(conn_parts[3])
+    username=conn_parts[4]
+    password=conn_parts[5]
+
+    return host, port, username, password
         
 def get_pykx_connection(client, clusterName: str, userName: str, boto_session, endpoint_url: str=None, environmentId:str=None):
     if environmentId is None:
@@ -758,13 +768,8 @@ def get_pykx_connection(client, clusterName: str, userName: str, boto_session, e
                                       environmentId=environmentId, clusterName=clusterName, userName=userName,
                                       boto_session=boto_session, endpoint_url=endpoint_url)
 
-    conn_parts = conn_str.split(":")
-
-    host=conn_parts[2].strip("/")
-    port = int(conn_parts[3])
-    username=conn_parts[4]
-    password=conn_parts[5]
-
+    host, port, username, password = parse_connection_string(conn_str)
+    
     return kx.QConnection(host=host, port=port, username=username, password=password, tls=True)
         
     
