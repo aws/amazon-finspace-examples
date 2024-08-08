@@ -23,6 +23,16 @@
 
 show "TP: START"
 
+show "Command Line Arguments..."
+
+params:.Q.opt .z.X
+show params
+
+/ read in params
+.tp.procName:first params`procName
+.tp.volumeName:first params`volumeName
+
+
 / to simulate of day
 /tp("{.u.end .u.d;if[.u.l;hclose .u.l;.u.l:.u.ld .u.d]}[]")
 
@@ -37,7 +47,7 @@ show "TP: START"
 / END load libraries
 
 src:"sym"
-path:"/opt/kx/app/shared/RDB_TP_SHARED/TP_basictickdb"
+path:"/opt/kx/app/shared/",.tp.volumeName,"/",.tp.procName
 
 \l tick/u.q
 \d .u

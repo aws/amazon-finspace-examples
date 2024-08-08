@@ -58,51 +58,49 @@ tag:{update calcTs:.z.P, state:x from y};
 upd_last:{[t;x]
     .[`trade_last;();,;latest:select by sym from x];
     .u.pub[`trade_last;tag[`stream] latest];
- }  
+    }  
 
 /vwap
 upd_vwap:{[t;x] 
     trade_vwap+:latest:select vwap:size wavg price,volume:sum size by sym from x;
     .u.pub[`trade_vwap;tag[`stream] latest];
- } 
+    } 
 
+/hlcv
 upd_hlcv:{[t;x]
     join:(0!trade_hlcv),select sym,high:price,low:price,close:price,volume:size from x;
     trade_hlcv::latest:select max high,min low,last close,sum volume by sym from join;
     .u.pub[`trade_hlcv;tag[`stream] latest];
- }
+    }
 
 upd:{[t;x]
-	if[t~`trade;
-        	upd_last[t;x];
-        	upd_vwap[t;x];
-       		upd_hlcv[t;x];
-	  ];
- }
+    if[t~`trade;
+        upd_last[t;x];
+        upd_vwap[t;x];
+        upd_hlcv[t;x];
+        ];
+    }
 
 .awscust.z.ts:{}
-
 
 getSnap_vwap:{[x] select from trade_vwap where sym in x} 
 getSnap_last:{[x] select from trade_last where sym in x} 
 getSnap_hlcv:{[x] select from trade_hlcv where sym in x} 
 
-
 // snap function handlers
 .stream.snap:`trade_vwap`trade_hlcv`trade_last!(getSnap_vwap;getSnap_hlcv;getSnap_last)
 
-
 // add .u.snap to support snapshots
 .u.snap:{[x]
-	tag[`snap] .stream.snap[x 0]x 1
- }
+    tag[`snap] .stream.snap[x 0]x 1
+    }
 
 .u.subSnap:{[x;y]
- 	.u.sub .(x;y);
-	.u.snap (x;y)
- }	
+    .u.sub .(x;y);
+    .u.snap (x;y)
+    }
 
-system"t 5000"
+\t 5000
 
 / load datafilter analytics
 /\l sample/dfilt.q_
@@ -119,12 +117,12 @@ init:{[tp_name]
 \l tick/u.q
 .u.init[];
 
-note:" " sv ("RDB: init "; string(.z.z))
+note:" " sv ("CALC: init "; string(.z.z))
 show note
 
 init[tp_name] 
 
 / must be in this path for db reads to work
-system "cd /opt/kx"
+\cd /opt/kx/app
 
 show "CALC: DONE"

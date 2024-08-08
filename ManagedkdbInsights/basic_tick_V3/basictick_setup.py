@@ -6,14 +6,14 @@ RDB_CLUSTER_NAME="RDB_basictickdb"
 HDB_CLUSTER_NAME="HDB_basictickdb"
 GW_CLUSTER_NAME ="GATEWAY_basictickdb"
 TP_CLUSTER_NAME ="TP_basictickdb"
-CALC_CLUSTER_NAME ="CALC_basictickdb"
+CEP_CLUSTER_NAME ="CEP_basictickdb"
 
 all_clusters = {
     "tp": TP_CLUSTER_NAME,
     "rdb": RDB_CLUSTER_NAME,
     "hdb": HDB_CLUSTER_NAME,
     "gw" : GW_CLUSTER_NAME,
-    "calc" : CALC_CLUSTER_NAME
+    "cep" : CEP_CLUSTER_NAME
 
 }
 

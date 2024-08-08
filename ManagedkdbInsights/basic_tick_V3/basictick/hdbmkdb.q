@@ -6,11 +6,10 @@ params:.Q.opt .z.X
 show params
 
 / read in params
-dbname:first params`dbname
-tphostfile:first params`tphostfile
+/tphostfile:first params`tphostfile
 
-/ assign paths
-dbpath: "/opt/kx/app/db/", dbname
+/ database path
+dbpath: "/opt/kx/app/db/", .aws.akdb
 
 / cd to code directory
 \cd /opt/kx/app/code
@@ -25,7 +24,7 @@ dbpath: "/opt/kx/app/db/", dbname
 $[count key hsym `$dbpath;[ show "loading database: ", dbpath; .Q.l `$dbpath;];
     [show "no database at: ", dbpath;]]
 
-/ must be in this path for db reads to work
+/ must finished at this path for db reads to work
 \cd /opt/kx/app
 
 / count partitioned tables
