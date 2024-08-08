@@ -3,6 +3,9 @@ This example shows how one can lever a Managed kdb Insights cluster to process e
 
 Please see the below notebooks for details on how this is accomplished.
 
+## Solution Architecture
+![Architecture](csv_arch.png "Architecture")
+
 ## References
 [FinSpace Managed kdb Insights](https://docs.aws.amazon.com/finspace/latest/userguide/finspace-managed-kdb.html): Service Documentation   
 [FinSpace q API](https://docs.aws.amazon.com/finspace/latest/userguide/interacting-with-kdb-q-apis.html): q API of Service   
