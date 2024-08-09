@@ -8,7 +8,7 @@ This project  implementats a basic market data tick architecture using FinSpace 
 <img src="images/Deepdive Diagrams-BasicTick V3.drawio.png"  width="50%">
 
 # Implementation
-A feed handler (FH) simulates data that would be coming from a trading venue, in this case it will be publishing trade and quote data which will be distributed by the tickerplant (TP). A Complex event processor (CEP) will subscribe to the tickerplant's trade and quote events and then will calculate/maintain a set of tables that are updated as each trade or quote event is published to the CEP. The CEP will maintain three tables: trade_hlcv (trade by sym: high, low, close, volume), trade_last (last trade price and size, by sym) and 
+A feed handler (FH) simulates data that would be coming from a trading venue, in this case it will be publishing trade and quote data which will be distributed by the tickerplant (TP) ro subscribers. A realtime subscriber (RTS) will subscribe to the tickerplant's trade and quote events and then will calculate/maintain a set of tables that are updated as each trade or quote event is published to the RTS. The RTS will maintain three tables: trade_hlcv (trade by sym: high, low, close, volume), trade_last (last trade price and size, by sym) and 
 trade_vwap (solume weighted average price and total volume by sym). The realtime database (RDB) will subscribe to the TP and collect in a table all trades and quotes from the TP for today. The historical database (HDB) has historical data, trade and quote tables from previous days. The gateway acts as an aggregator for all data in the application and when queried will query both the RDB and HDB and then combine the results into one result before responding to the query requesting client.
 
 ## End of Day Processing (EOD)
@@ -35,15 +35,15 @@ This notebook performs all infrastructure setup and runs all the kdb processes (
 
 **Notebook:** [pykx_query_all.ipynb](pykx_query_all.ipynb)   
 
-This notebook queries the managed kdb processes directly to show their contents and specifically queries the gateway process to collect and aggregate data from the RDB and HDB.
+This notebook queries all the managed kdb processes directly to show their contents and specifically queries the gateway process that collects and aggregates data from the RDB and HDB.
 
 **Notebook:** [pykx_sub_calc.ipynb](pykx_sub_calc.ipynb)   
 
-This notebook demonstrates connecting to the Calc (CEP) process and collecting latency data on data transmission.
+This notebook demonstrates connecting to the realtime subscriber (RTS) process and collects latency data on data transmission.
 
 **Notebook:** [manual_eod.ipynb](manual_eod.ipynb)   
 
-This notebook demonstrates how to connect to the RDB cluster and manually run its end of day function. This notebook uses the pykx q magic cell to connect to and call the function on the remote cluster.
+This notebook demonstrates how to connect to the RDB cluster and manually run its end of day (EOD) function. This notebook uses the pykx q magic cell to connect to and call the function on the remote cluster.
 
 **Notebook:** [delete_all.ipynb](delete_all.ipynb)   
 

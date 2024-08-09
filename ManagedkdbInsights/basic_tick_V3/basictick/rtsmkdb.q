@@ -1,5 +1,5 @@
-/ Basic CALC process (leveraging rdbmkdb.q)
-show "CALC: START"
+/ Basic RTS process (leveraging rdbmkdb.q)
+show "RTS: START"
 show "Command Line Arguments..."
 
 params:.Q.opt .z.X
@@ -26,7 +26,7 @@ trade_last:([sym:`$()]time:`timestamp$();price:`float$();size:`long$())
 .rdb.establishTpConnection:{[zx]
     / Attempt tp connect to tp. If success sub to tables and turn off timer
     if[.conn.connectToProcs[`tp;zx];
-        show"connected to tp";
+        show"connected to TP";
         .rdb.onTpConnect[exec first handle from .conn.procs where process=`tp];
         .awscust.z.ts:{};
         .rdb.tpConnectWait:1;
@@ -36,7 +36,7 @@ trade_last:([sym:`$()]time:`timestamp$();price:`float$();size:`long$())
     / If could not connect to tp, increment wait timer by second (backoff) and set to reconnect.
     .rdb.tpConnectWait+:1;
     .awscust.z.ts:{[x;zx].rdb.establishTpConnection[zx]}[;zx];
-    show"Could not establish connection to tp waiting ",string[.rdb.tpConnectWait]," seconds";
+    show"Could not establish connection to TP waiting ",string[.rdb.tpConnectWait]," seconds";
     system"t ",string 1000* .rdb.tpConnectWait;
     }
 
@@ -117,7 +117,7 @@ init:{[tp_name]
 \l tick/u.q
 .u.init[];
 
-note:" " sv ("CALC: init "; string(.z.z))
+note:" " sv ("RTS: init "; string(.z.z))
 show note
 
 init[tp_name] 
@@ -125,4 +125,4 @@ init[tp_name]
 / must be in this path for db reads to work
 \cd /opt/kx/app
 
-show "CALC: DONE"
+show "RTS: DONE"
