@@ -1,21 +1,21 @@
 # Examples
 - [Basic Tick V3](basic_tick_V3)  
-  - Example market data collection and query application   
+  - Market data collection and query application   
 - [Boto Use Examples](boto)  
-  - Examples of using boto python libraries to interact with the service   
+  - Using boto python libraries to interact with the service   
 - [dbmaint](dbmaint)  
-  - Example of performing DB maintenance on a FinSpace Managed database
+  - Performing DB maintenance on a FinSpace Managed database
 - [HDB Backup](hdb_backup)  
-  - Example of backinh up an on-prem historical database into FinSpace
-  - With backup in FinSpace, can use its clusters for on-demand compute for database query
+  - Backup an on-prem historical database into FinSpace
+  - With backup in FinSpace, use FinSpace  clusters for on-demand compute for database query
 - [CSV File Processing](processing_data)  
-  - Example of processing csv.gz files (such as from a data vendor) into a FinSpace Managed database
+  - Processing csv.gz files (such as from a data vendor) into a FinSpace Managed database
 - [q Code Examples](q)  
   - q library useful for interacting with FinSpace from external q applications (such as on-prem)
 - [TorQ](torq)  
-  - Example application using the open-source TorQ libraries
+  - Application using the open-source TorQ libraries
 - [Update Cluster](update_cluster)  
-  - Exmaple of updating a cluster with newer code (such as code being developed locally and running on managed clusters)   
+  - Updating a cluster with newer code (such as code being developed locally and running on managed clusters)   
 
 
 ## Running Examples
