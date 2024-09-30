@@ -158,7 +158,7 @@ networkx==2.7.1
 nltk==3.7
 notebook==6.4.12
 numba==0.55.1
-numexpr==2.8.1
+numexpr==2.8.5
 numpy==1.26.2
 numpydoc==1.2
 olefile==0.46
