@@ -1,16 +1,11 @@
-/file = kxtaqfeed.q
-/description = generate synthetic data for stocks
-/usage = nohup /usr/bin/rlwrap /taq/demo/q/l64/q kxtaqfeed.q -p 5010 -debug 1 -tp `:host:port:user:pass > /dev/null 2>&1 &
+/file = feed.q
 
-DEBUG:first "B"$.Q.opt[.z.x]`debug
-cmdline:.z.x
-freq:system"t"
 /Load the dependency load library
 \l connectmkdb.q
 
-
 \S 104831
-dst:`:db/taq
+
+/dst:`:db/taq
 end:.z.D
 num:10
 stm:0D00:00
@@ -111,9 +106,8 @@ make:{
 
 .feed.pubToTp:{[]
     .cache.start:.z.P;
-    .cache.end:.cache.start + `long$1e6 * freq;
+    .cache.end:.cache.start + `long$1e6 * FREQ;
     d:`date$.cache.start;
-
 
     offset:0D01;
 
@@ -121,13 +115,10 @@ make:{
     trade:select from (data`trade) where time within (.cache.start-offset;.cache.end+offset);
     quote:select from (data`quote) where time within (.cache.start-offset;.cache.end+offset);
 
-
     trade:update time:{.z.P}d+time from trade;
     quote:update time:{.z.P}d+time from quote;
     
-  
     tpHandle:exec first handle from .conn.procs where process=`tp;
-
 
     if[DEBUG; 
 	.dbg.res:enlist (quote;trade);
@@ -136,14 +127,17 @@ make:{
 	0N!"Trade payload size (bytes) : ",string -22!trade;
 	0N!"Quote|Trade count: ", .Q.s1 count each (quote;trade);
 	0N!"Total time: ",string `time$.z.P-.cache.start;
-/	:(); / do not exit when in debug mode
+    0N!show select process,connected,handle,address from .conn.procs;
+/	:(); / this would return without sending aything
 	];
 
     if[count quote;
-	neg[tpHandle](`.u.upd;`quote;value flip `time`sym xcols quote);
+	neg[tpHandle](`.u.upd;`quote;value flip `time`sym xcols quote); / neg is for async send
+/	tpHandle(`.u.upd;`quote;value flip `time`sym xcols quote);
      ];
     if[count trade;
-	neg[tpHandle](`.u.upd;`trade;value flip `time`sym xcols trade);
+	neg[tpHandle](`.u.upd;`trade;value flip `time`sym xcols trade); / neg is for async send
+/	tpHandle(`.u.upd;`trade;value flip `time`sym xcols trade);
      ];
     
     };
@@ -163,7 +157,4 @@ make:{
     show"Could not establish connection to tp waiting ",string[.feed.tpConnectWait]," seconds";
     system"t ",string 1000* .feed.tpConnectWait;
     }
-
-
-.feed.establishTpConnection[2#cmdline]
 

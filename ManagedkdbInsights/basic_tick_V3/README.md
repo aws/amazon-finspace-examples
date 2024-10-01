@@ -57,6 +57,7 @@ This notebook demonstrates a debugging setup to a remote cluster. Using the q ma
 All q files for this application are located in the [basictick](basictick) sub directory of this project.
 
 ## Python Files
+[feedhandler_pykx.py](feedhandler_pykx.py) PyKX based FeedHandler that is used to send data thru the TP into the RDB.   
 [env.py](env.py) managed kdb Insights environment information including credentials,   
 [basictick_setup.py](basictick_setup.py) application setup information including all resource names.   
 [managed_kx.py](managed_kx.py) Utility functions to work with the FinSpace with Managed kdb Insights boto APIs.   

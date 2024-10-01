@@ -27,7 +27,8 @@ DB_NAME="basictickdb"
 DBVIEW_NAME=f"{DB_NAME}_DBVIEW"
 
 # Feedhandler port to listen to
-FH_PORT=5030
+# FH_PORT=5030
+FH_TICK=10000
 
 # Calc Engine Subscriber port to listen to
 SUBSCRIBER_PORT=5040
