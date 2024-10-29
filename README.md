@@ -9,21 +9,6 @@ These are example projects using FinSpace with Managed kdb Insights. Refer to ea
 - [Reference Architecture](ManagedkdbInsights/basic_tick)
 - [HDB Backup](ManagedkdbInsights/hdb_backup)
 
-## Dataset Browser
-Example notebooks using the dataset browser.
-
-- [Dataset Browser Notebooks](DatasetBrowser)
-
-## Blogs
-[Analyze daily trading activity using transaction data from Amazon Redshift in Amazon FinSpace](blogs/finspace_redshift-2021-09)   
-How to connect Amazon FinSpace to a Redshift cluster, import tables into FinSpace datasets, and pull data in tables from
-Redshift directly into Spark DataFrames.
-
-## Webinars
-[Making Financial Data More Accessible in the Cloud](webinars/snowflake_2021-09)  
-Notebooks used to demonstrate integration of Snowflake tables with Amazon FinSpace. Presented at Snowflake Financial
-Services Summit Sept 14, 2021: [Making Financial Data More Accessible in the Cloud](https://www.snowflake.com/financial-services-data-summit/americas/agenda/?agendaPath=session/615483)
-
 ## FAQ
 *How do I contribute my own examples?*  
 
