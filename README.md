@@ -1,5 +1,5 @@
 # Amazon FinSpace Examples
-This repository contains examples that show how to work with [Amazon FinSpace](https://aws.amazon.com/finspace/). Amazon FinSpace is comprised of [Managed kdb Insights](https://aws.amazon.com/finspace/features/managed-kdb-insights/) and the [Dataset Browser](https://aws.amazon.com/finspace/features/dataset-browser/)
+This repository contains examples that show how to work with [Amazon FinSpace](https://aws.amazon.com/finspace/). 
 
 ## Managed kdb Insights
 These are example projects using FinSpace with Managed kdb Insights. Refer to each project README.
