@@ -1,7 +1,7 @@
 # Project related
 hdb/
 pdfs/
-
+.Rhistory
 basic_tick/env1.py
 basic_tick/env2.py
 basic_tick/env3.py
