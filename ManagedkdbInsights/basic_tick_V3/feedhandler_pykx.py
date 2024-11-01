@@ -1,15 +1,13 @@
-import asyncio
 import argparse
 import boto3
 import sys
 import time
 
-import pandas as pd
 import pykx as kx
 
 from managed_kx import *
 
-async def main():
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # arguments
@@ -17,14 +15,14 @@ async def main():
     parser.add_argument("-env",        "-e", help="environment ID", required=True)
     parser.add_argument("-username",   "-u", help="kdb Username", required=True)
 
+    parser.add_argument("-tick",       "-t",  help="Timer ticks (milliseconds)", default="10000")
     parser.add_argument("-tp_name",    "-tp", help="Tickerplant Cluster Name", required=True)
-    parser.add_argument("-debug",      "-d",  help="Debug True/False", default="False")
-    parser.add_argument("-port",       "-p",  help="Port to listen two for external connections", default="5030")
-    
+    parser.add_argument("-debug",      "-d",  help="Debugging output", default=False, action='store_true')
 
     args = parser.parse_args()
-    
-    port = int(args.port)
+
+    ticks = int(args.tick)
+    debug = args.debug
 
     session = boto3.Session(profile_name = args.profile)
 
@@ -39,58 +37,37 @@ async def main():
                                         boto_session=session)
 
     print(conn_str)
-    
+
     # PyKX
+    # set pykx local q console width and height
+    kx.q.system.display_size = [50, 100]    
+    
     # pass args to q process
 
-    kx.q("\\t 10000")
-
-    kx.q['DEBUG'] = 1
-    kx.q['conn_str']=kx.toq(conn_str, kx.CharVector)
+    kx.q['FREQ'] = ticks
+    kx.q['DEBUG'] = debug
+    kx.q['CONN_STR']=kx.toq(conn_str, kx.CharVector)
 
     # source libraries
     kx.q("\\cd basictick")
     kx.q("\\l feed.q")
 
     # run function, pass the connection string
-    kx.q('.feed.establishTpConnection[ enlist ["-tp"; conn_str] ]')
+    kx.q('.feed.establishTpConnection[ enlist ["-tp"; CONN_STR] ]')
 
-    total_runtime = 0
-    sleep_sec = 10
+    total_runtime = 0.0
+    sleep_sec = ticks/1000.0
 
+    # will loop forever
     while True:
-        kx.q.feed.pubToTp();
-        
+
+        # with async sending, make sure its all sent
+        kx.q("handle:exec first handle from .conn.procs where process=`tp")
+        kx.q.feed.pubToTp()
+        kx.q('neg[handle][]')
+
         print(f"Total runtime {datetime.timedelta(seconds=total_runtime)}, waiting {sleep_sec} sec ...")
 
         time.sleep(sleep_sec)
         total_runtime = total_runtime + sleep_sec
         continue
-    
-    # now run async
-#    async with kx.RawQConnection(port=port, as_server=True, conn_gc_time=20.0) as q:
-#        print(q['conn_str'])
-              
-        # source libraries
-#        q("\\cd basictick")
-#        q("\\l feed.q")
-
-        # run function, pass the connection string
-#        q('.feed.establishTpConnection[ enlist ["-tp"; conn_str] ]')
-
-#        total_runtime = 0
-#        sleep_sec = 10
-        
-#        while True:
-#            q.poll_recv()
-            
-#            print(f"Total runtime {datetime.timedelta(seconds=total_runtime)}, waiting {sleep_sec} sec ...")
-#
-#            time.sleep(sleep_sec)
-#            total_runtime = total_runtime + sleep_sec
-#            continue
-
-if __name__ == '__main__':
-    asyncio.run(main())
-
-    

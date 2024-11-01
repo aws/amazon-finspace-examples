@@ -37,7 +37,14 @@ Trade and Quote data has been provided by [AlgoSeek LLC](https://www.algoseek.co
 ## Notebooks
 [create_all](create_all.ipynb): creates all infra components of the example and populates the managed database with an initially empty table   
 [process_algoseek](process_algoseek.ipynb): Process the TAQ data (as supplied by [AlgoSeek](https://www.algoseek.com/)) into the Managed Database   
+[query_algoseek](query_algoseek.ipynb): Examples of querying the TAQ data (as supplied by [AlgoSeek](https://www.algoseek.com/)) using PyKX   
 [delete_all](delete_all.ipynb): Deletes all created resources from create_all   
+
+## Python Files
+[config.py](config.py): Configuration variables that identify the infrastructure of the application (database, view, clustes)   
+[env.py](env.py): Variables that identify a FinSpace environment    
+[managed_kx.py](managed_kx.py): Helper functions    
+
 
 ### Other Files
 [algoseek-marketdata.tar.gz](algoseek-marketdata.tar.gz): Tarball of two days (2021-01-04, 2021-04-05) of TAQ data for tickers FB, AMZN, NFLX, GOOG    

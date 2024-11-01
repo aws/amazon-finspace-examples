@@ -33,8 +33,9 @@ def get_session():
     
     return session
 
-def get_client(endpoint_url: str = None):
-    session = get_session()
+def get_client(session = None, endpoint_url: str = None):
+    if session is None:
+        session = get_session()
     
     # create finspace client
     return session.client(service_name='finspace', endpoint_url=endpoint_url)

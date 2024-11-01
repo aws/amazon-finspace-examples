@@ -14,7 +14,6 @@ all_clusters = {
     "hdb": HDB_CLUSTER_NAME,
     "gw" : GW_CLUSTER_NAME,
     "rts" : RTS_CLUSTER_NAME
-
 }
 
 SCALING_GROUP_NAME="SCALING_GROUP_basictickdb"
@@ -32,3 +31,14 @@ FH_TICK=10000
 
 # Calc Engine Subscriber port to listen to
 SUBSCRIBER_PORT=5040
+
+# Source data directory
+SOURCE_DATA_DIR="hdb"
+
+# Code directory
+CODEBASE="basictick"
+
+# S3 Destinations
+S3_CODE_PATH="code"
+S3_DATA_PATH="data"
+
