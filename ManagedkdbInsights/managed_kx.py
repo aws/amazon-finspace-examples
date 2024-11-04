@@ -748,6 +748,29 @@ def dump_database(client, databaseName:str, changset_details=False, environmentI
     else:
         display( pd.DataFrame.from_dict(c_set_list) )
 
+        
+def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
+    """Set TCP keepalive on an open socket.
+
+    It activates after 1 second (after_idle_sec) of idleness,
+    then sends a keepalive ping once every 3 seconds (interval_sec),
+    and closes the connection after 5 failed ping (max_fails), or 15 seconds
+    """
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, after_idle_sec)
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, interval_sec)
+    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, max_fails)
+
+def set_keepalive_osx(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
+    """Set TCP keepalive on an open socket.
+
+    sends a keepalive ping once every 3 seconds (interval_sec)
+    """
+    # scraped from /usr/include, not exported by python's socket module
+    TCP_KEEPALIVE = 0x10
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+    sock.setsockopt(socket.IPPROTO_TCP, TCP_KEEPALIVE, interval_sec)
+
 
 def parse_connection_string(conn_str: str):
     conn_parts = conn_str.split(":")
@@ -758,8 +781,9 @@ def parse_connection_string(conn_str: str):
     password=conn_parts[5]
 
     return host, port, username, password
-        
-def get_pykx_connection(client, clusterName: str, userName: str, boto_session, endpoint_url: str=None, environmentId:str=None):
+
+
+def get_pykx_connection(client, clusterName: str, userName: str, boto_session, endpoint_url: str=None, environmentId:str=None, tls_enabled:bool=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 
@@ -771,6 +795,10 @@ def get_pykx_connection(client, clusterName: str, userName: str, boto_session, e
 
     host, port, username, password = parse_connection_string(conn_str)
     
-    return kx.QConnection(host=host, port=port, username=username, password=password, tls=True)
+    return kx.SyncQConnection(host=host, port=port, username=username, password=password, tls=tls_enabled)
         
-    
+    if (tls_enabled is False) and kx.licensed:
+        set_keepalive_linux(handle._sock, after_idle_sec=300, interval_sec=60, max_fails=25)
+        
+    return handle
+
