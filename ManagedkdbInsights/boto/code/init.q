@@ -1,5 +1,5 @@
 / so text of log messages are wide enough
-\c 30 200
+\c 50 1000
 
 / command line arguments
 params:.Q.opt .z.X
@@ -9,17 +9,8 @@ show "Init Script: START"
 show "Command Line Arguments..."
 show params
 
-/ get the name of the database given to use
-dbname:first params`dbname
-
-/ cd to database directory
-\cd /opt/kx/app/db
-
-/ load the db
-.Q.l `$dbname
-
-/ run this to capture counts of partitioned tables (updated global variables)
-count each value each tables[]
+/ load the database
+.Q.l `$.aws.akdbp,"/",.aws.akdb
 
 / back to code directory
 \cd /opt/kx/app/code
