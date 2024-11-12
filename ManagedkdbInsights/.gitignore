@@ -18,6 +18,8 @@ env1.py
 env2.py
 env3.py
 
+.terraform
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
