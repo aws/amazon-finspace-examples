@@ -274,8 +274,9 @@ def wait_for_environment_status(client, environmentId:str, status: str='CREATED'
                 print(f"Type: {error_info.get('errorType', '')}")
                 print(f"Message: {error_info.get('errorMessage', '')}")
                 print(error_info)
-
-#            print(resp)
+            else:
+                print(resp)
+                
             return None
         elif a_status.upper() != status.upper():
             if show_wait: 
@@ -321,8 +322,9 @@ def wait_for_changeset_status(client, environmentId:str, databaseName: str, chan
                 print(f"Type: {error_info.get('errorType', '')}")
                 print(f"Message: {error_info.get('errorMessage', '')}")
                 print(error_info)
-
-#            print(resp)
+            else:
+                print(resp)
+                
             return None
         elif a_status is not None and a_status.upper() != status.upper():
             if show_wait: 
@@ -373,8 +375,9 @@ def wait_for_cluster_status(client, environmentId:str, clusterName: str, status:
                 print(f"Type: {error_info.get('errorType', '')}")
                 print(f"Message: {error_info.get('errorMessage', '')}")
                 print(error_info)
-
-#            print(resp)
+            else:
+                print(resp)
+            
             return None
         elif this_status.upper() != status.upper():
             if show_wait:
@@ -431,8 +434,9 @@ def wait_for_volume_status(client, environmentId:str, volumeName: str, status: s
                 print(f"Type: {error_info.get('errorType', '')}")
                 print(f"Message: {error_info.get('errorMessage', '')}")
                 print(error_info)
-
-#            print(resp)
+            else:
+                print(resp)
+                
             return None
         elif this_status.upper() != status.upper():
             if show_wait:
@@ -491,8 +495,9 @@ def wait_for_scaling_group_status(client, environmentId:str, scalingGroupName: s
                 print(f"Type: {error_info.get('errorType', '')}")
                 print(f"Message: {error_info.get('errorMessage', '')}")
                 print(error_info)
-
-#            print(resp)
+            else:
+                print(resp)
+                
             return None
         elif this_status.upper() != status.upper():
             if show_wait:
@@ -550,8 +555,9 @@ def wait_for_dataview_status(client, environmentId:str, databaseName: str, datav
                 print(f"Type: {error_info.get('errorType', '')}")
                 print(f"Message: {error_info.get('errorMessage', '')}")
                 print(error_info)
-
-#            print(resp)
+            else:
+                print(resp)
+                
             return None
         elif this_status.upper() != status.upper():
             if show_wait:
@@ -667,6 +673,7 @@ def get_clusters(client, clusterType: str=None, environmentId:str=None):
         dict_l.append(d)
 
     return pd.DataFrame.from_dict(dict_l)
+
 
 def print_clusters(client, print_empty=False, environmentId:str=None):
     if environmentId is None:
