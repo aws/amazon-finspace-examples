@@ -47,6 +47,7 @@ Trade and Quote data has been provided by [AlgoSeek LLC](https://www.algoseek.co
 
 
 ### Other Files
+[config.py)(config.py): Configuration variables   
 [algoseek-marketdata.tar.gz](algoseek-marketdata.tar.gz): Tarball of two days (2021-01-04, 2021-04-05) of TAQ data for tickers FB, AMZN, NFLX, GOOG    
 [requirements.txt](requirements.txt): Required Python libraries   
 

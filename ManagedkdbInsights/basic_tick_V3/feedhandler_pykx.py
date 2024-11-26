@@ -1,3 +1,6 @@
+import faulthandler
+faulthandler.enable()
+
 import argparse
 import boto3
 import sys

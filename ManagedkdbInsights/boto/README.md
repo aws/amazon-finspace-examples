@@ -12,11 +12,8 @@ Collection of notebooks to demonstrate uses of the FinSpace AWS CLI and Boto lib
 [CLI_Environment_Setup](CLI_Environment_Setup.ipynb)
 Notebook using teh AWS CLI to create and setup a basic Managed mkb Insights environment. Setup includes environment creation, database creation and population, user creation, getting a connection string to the cluster.
 
-[create_cluster_HDB](create_cluster_HDB.ipynb)
+[create_cluster](create_cluster.ipynb)
 Creates an HDB cluster using AWS Python boto library.
-
-[create_cluster_RDB](create_cluster_RDB.ipynb)
-Creates an RDB cluster using AWS Python boto library.
 
 [generate_welcome_data](generate_welcome_data.ipynb)
 q Notebook to generate the hdb database.
@@ -42,8 +39,8 @@ Lists all clisters of an environment.
 [list_databases](list_databases.ipynb)
 Lists all databases of an environment.
 
-[query_cluster](query_cluster.ipynb)
-q Notebook to show how to connect to and query a cluster.
+[pykx_query_welcomedb](pykx_query_welcomedb.ipynb)
+q Notebook to show how to connect to and query a cluster using pykx.
 
 [query_env](query_env.ipynb)
 Displays all information about the given environment. Information includes databases and clusters.

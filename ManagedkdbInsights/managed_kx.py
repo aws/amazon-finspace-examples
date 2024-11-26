@@ -13,45 +13,17 @@ import pandas as pd
 pd.set_option('display.max_colwidth', None)
 
 #
-# Session and Client
-#
-def get_session():
-    # Create AWS Session for working with FinSpace service
-    session=None
-
-    if 'myVar' not in globals():
-#        print("Using Defaults ...")
-        # create AWS session: using access variables
-        session = boto3.Session()
-    else:
-#        print("Using variables ...")
-        session = boto3.Session(
-            aws_access_key_id=AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-            aws_session_token=AWS_SESSION_TOKEN
-        )
-    
-    return session
-
-def get_client(session = None, endpoint_url: str = None):
-    if session is None:
-        session = get_session()
-    
-    # create finspace client
-    return session.client(service_name='finspace', endpoint_url=endpoint_url)
-
-#
 # Functions
 # ----------------------------------------------------------------------------
 
 def get_kx_environment_id(client):
     l = list_kx_environments(client)
     envs = []
-    
+
     for e in l:
         if e['status'] == "CREATED":
             envs.append(e)
-    
+
     if len(envs) != 1:
         print(f"Environment count: {len(envs)} cannot infer which to use")
         return None
@@ -71,7 +43,7 @@ def list_kx_environments(client):
 def list_kx_databases(client, environmentId:str=None):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
-        
+
     resp = client.list_kx_databases(environmentId=environmentId)
 
     results = resp['kxDatabases']
@@ -88,7 +60,7 @@ def list_kx_clusters(client, clusterType=None, environmentId:str=None):
         environmentId = get_kx_environment_id(client)
 
     resp = None
-    
+
     if clusterType is not None:
         resp = client.list_kx_clusters(environmentId=environmentId, clusterType=clusterType)
     else:
@@ -112,13 +84,13 @@ def list_kx_changesets(client, databaseName, environmentId:str=None):
         environmentId = get_kx_environment_id(client)
 
     resp = client.list_kx_changesets(environmentId=environmentId, databaseName=databaseName)
-    
+
     results = resp.get('kxChangesets', [])
 
     while "nextToken" in resp:
         resp = client.list_kx_changesets(environmentId=environmentId, databaseName=databaseName, nextToken=resp['nextToken'])
         results.extend(resp['kxChangesets'])
-    
+
     return results
 
 def get_kx_changeset(client, environmentId:str, databaseName: str, changesetId:str):
@@ -139,7 +111,7 @@ def get_kx_changeset(client, environmentId:str, databaseName: str, changesetId:s
 def get_all_kx_changesets(client, databaseName, environmentId:str=None):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
-        
+
     # get all changesets
     c_list=list_kx_changesets(client, environmentId=environmentId, databaseName=databaseName)
 
@@ -161,7 +133,7 @@ def get_all_kx_changesets(client, databaseName, environmentId:str=None):
             # anything?
             if cr is None:
                 continue
-                
+
             item = {}
 
             # get the core items
@@ -186,7 +158,7 @@ def get_all_kx_changesets(client, databaseName, environmentId:str=None):
             item['date'] = dt
 
             part_list.append(item)
-     
+
     return part_list
 
 def has_database(client, databaseName, environmentId: str=None):
@@ -228,7 +200,7 @@ def has_cluster(client, clusterName, environmentId: str = None):
 def get_kx_environment(client, environmentId: str=None):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
-    
+
     try:
         resp = client.get_kx_environment(environmentId=environmentId)
     except client.exceptions.ResourceNotFoundException:
@@ -242,8 +214,8 @@ def get_kx_environment(client, environmentId: str=None):
     resp = resp.get('environment', resp)    
 
     return resp
-    
-    
+
+
 def wait_for_environment_status(client, environmentId:str, status: str='CREATED', sleep_sec=10, max_wait_sec=1200, show_wait=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
@@ -259,9 +231,9 @@ def wait_for_environment_status(client, environmentId:str, status: str='CREATED'
         if resp is None:
             print(f"Environment: {environmentId} does not exist")
             continue
-        
+
         a_status = resp.get('status')
-        
+
         if a_status is None:
             print("status is None, returning")
             return resp
@@ -276,7 +248,7 @@ def wait_for_environment_status(client, environmentId:str, status: str='CREATED'
                 print(error_info)
             else:
                 print(resp)
-                
+
             return None
         elif a_status.upper() != status.upper():
             if show_wait: 
@@ -324,7 +296,7 @@ def wait_for_changeset_status(client, environmentId:str, databaseName: str, chan
                 print(error_info)
             else:
                 print(resp)
-                
+
             return None
         elif a_status is not None and a_status.upper() != status.upper():
             if show_wait: 
@@ -377,7 +349,7 @@ def wait_for_cluster_status(client, environmentId:str, clusterName: str, status:
                 print(error_info)
             else:
                 print(resp)
-            
+
             return None
         elif this_status.upper() != status.upper():
             if show_wait:
@@ -406,8 +378,8 @@ def get_kx_volume(client, environmentId:str, volumeName: str):
         resp=None
 
     return resp
-    
-    
+
+
 def wait_for_volume_status(client, environmentId:str, volumeName: str, status: str='ACTIVE', sleep_sec=30, max_wait_sec=3600, show_wait=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
@@ -419,7 +391,7 @@ def wait_for_volume_status(client, environmentId:str, volumeName: str, status: s
 
     while True and total_wait < max_wait_sec:
         this_volume = get_kx_volume(client, environmentId = environmentId, volumeName=volumeName)
-        
+
         if this_volume is None:
             print(f"Volume: {volumeName} not found")
             return None
@@ -436,7 +408,7 @@ def wait_for_volume_status(client, environmentId:str, volumeName: str, status: s
                 print(error_info)
             else:
                 print(resp)
-                
+
             return None
         elif this_status.upper() != status.upper():
             if show_wait:
@@ -454,7 +426,7 @@ def wait_for_volume_status(client, environmentId:str, volumeName: str, status: s
 
 def get_kx_scaling_group(client, environmentId:str, scalingGroupName: str):
     resp = None
-    
+
     try:
         resp = client.get_kx_scaling_group(environmentId = environmentId, scalingGroupName=scalingGroupName)
 
@@ -465,7 +437,7 @@ def get_kx_scaling_group(client, environmentId:str, scalingGroupName: str):
 
     except client.exceptions.ResourceNotFoundException:
         resp=None
-                         
+
     return resp
 
 
@@ -497,7 +469,7 @@ def wait_for_scaling_group_status(client, environmentId:str, scalingGroupName: s
                 print(error_info)
             else:
                 print(resp)
-                
+
             return None
         elif this_status.upper() != status.upper():
             if show_wait:
@@ -526,9 +498,8 @@ def get_kx_dataview(client, environmentId:str, databaseName: str, dataviewName: 
         resp=None
 
     return resp
-    
-    
-    
+
+
 def wait_for_dataview_status(client, environmentId:str, databaseName: str, dataviewName: str, status: str='ACTIVE', sleep_sec=30, max_wait_sec=3600, show_wait=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
@@ -557,7 +528,7 @@ def wait_for_dataview_status(client, environmentId:str, databaseName: str, datav
                 print(error_info)
             else:
                 print(resp)
-                
+
             return None
         elif this_status.upper() != status.upper():
             if show_wait:
@@ -571,7 +542,7 @@ def wait_for_dataview_status(client, environmentId:str, databaseName: str, datav
             return this_resp
 
     print(f"No Dataview after {datetime.timedelta(seconds=total_wait)}")
-    
+
 
 def get_kx_cluster(client, clusterName: str, environmentId:str=None):
     if environmentId is None:
@@ -592,9 +563,9 @@ def get_kx_cluster(client, clusterName: str, environmentId:str=None):
     resp = resp.get('environment', resp)
 
     return resp
-    
-    
-def get_kx_connection_string(client, clusterName: str, userName: str, boto_session, endpoint_url: str=None, environmentId:str=None):
+
+
+def get_kx_connection_string(client, clusterName: str, userName: str, boto_session, environmentId:str=None):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 
@@ -604,23 +575,27 @@ def get_kx_connection_string(client, clusterName: str, userName: str, boto_sessi
     iamRole = resp.get("iamRole")
 
     sts_client = boto_session.client(service_name='sts')
+    cred_client = client
 
-    resp = sts_client.assume_role(RoleArn=iamRole, RoleSessionName="Connect-to-kdb-cluster")
+    try:
+        resp = sts_client.assume_role(RoleArn=iamRole, RoleSessionName="Connect-to-kdb-cluster")
 
-    creds = resp.get('Credentials')
+        creds = resp.get('Credentials')
 
-    # session for calling get connection String
-    cred_session = boto3.Session(
-        aws_access_key_id=creds.get('AccessKeyId'),
-        aws_secret_access_key=creds.get('SecretAccessKey'),
-        aws_session_token=creds.get('SessionToken')
-    )
+        # session for calling get connection String
+        cred_session = boto3.Session(
+            aws_access_key_id=creds.get('AccessKeyId'),
+            aws_secret_access_key=creds.get('SecretAccessKey'),
+            aws_session_token=creds.get('SessionToken')
+        )
+        cred_client = cred_session.client(service_name='finspace')
+    except:
+        cred_client = client
 
-    cred_client = cred_session.client(service_name='finspace', endpoint_url=endpoint_url)
     resp=cred_client.get_kx_connection_string(environmentId=environmentId, userArn=userArn, clusterName=clusterName)
-    
+
     return resp.get("signedConnectionString", None)
-   
+
 
 def get_clusters(client, clusterType: str=None, environmentId:str=None):
     if environmentId is None:
@@ -660,9 +635,9 @@ def get_clusters(client, clusterType: str=None, environmentId:str=None):
 
         for k in k_list:
             d[k] = resp.get(k, None)
-        
+
         dbs = resp.get('databases', None)
-        
+
         if dbs is not None:
             db = dbs[0]
             d['databaseName'] = db.get('databaseName', None)
@@ -680,7 +655,7 @@ def print_clusters(client, print_empty=False, environmentId:str=None):
         environmentId = get_kx_environment_id(client)
 
     svcs=[]
-    
+
     try:
         svcs = list_kx_clusters(client, environmentId=environmentId)
     except:
@@ -688,7 +663,7 @@ def print_clusters(client, print_empty=False, environmentId:str=None):
 
     if len(svcs) > 0 or print_empty == True:        
         print(f"Environment: {environmentId} Clusters found: {len(svcs)}")
-    
+
     svcs = sorted(svcs, key=lambda d: d['clusterName']) 
 
     for s in svcs:
@@ -701,7 +676,7 @@ def print_clusters(client, print_empty=False, environmentId:str=None):
             resp.pop('ResponseMetadata', None)
 
         svc_details = resp
-        
+
         print(f"{svc_name.ljust(20)} {svc_details['status'].ljust(13)} {svc_details.get('connectionString', '')}")    
 
 
@@ -718,7 +693,7 @@ def get_kx_database(client, environmentId:str, databaseName: str):
         resp=None
 
     return resp
-        
+
         
 def dump_database(client, databaseName:str, changset_details=False, environmentId:str=None):
     if environmentId is None:
@@ -727,15 +702,15 @@ def dump_database(client, databaseName:str, changset_details=False, environmentI
     c_set_list=[]
     note_str=""
 
-    db = client.get_kx_database(environmentId=environmentId, databaseName=db_name)
+    db = client.get_kx_database(environmentId=environmentId, databaseName=databaseName)
 
     try:
-        c_set_list = client.list_kx_changesets(environmentId=environmentId, databaseName=db_name)['kxChangesets']
+        c_set_list = client.list_kx_changesets(environmentId=environmentId, databaseName=databaseName)['kxChangesets']
     except:
         note_str = "<<Could not get changesets>>"
 
     print(100*"=")
-    print(f"Database: {db_name}, Changesets: ")
+    print(f"Database: {databaseName}, Changesets: ")
     print(f"{db.get('description', '')}")
     print(f"Bytes: {db['numBytes']:,} Changesets: {db['numChangesets']:,} Files: {db['numFiles']:,}")
     print(100*"-")
@@ -747,7 +722,7 @@ def dump_database(client, databaseName:str, changset_details=False, environmentI
         for c in c_set_list:
             c_set_id = c['changesetId']
             print(f"Changeset ({c['status']}): {c_set_id}: Created: {c['createdTimestamp']}")
-            c_rqs = client.get_kx_changeset(environmentId=environmentId, databaseName=db_name, changesetId=c_set_id)['changeRequests']
+            c_rqs = client.get_kx_changeset(environmentId=environmentId, databaseName=databaseName, changesetId=c_set_id)['changeRequests']
 
             chs_pdf = pd.DataFrame.from_dict(c_rqs)# .style.hide_index()
             display(chs_pdf)
@@ -755,7 +730,7 @@ def dump_database(client, databaseName:str, changset_details=False, environmentI
     else:
         display( pd.DataFrame.from_dict(c_set_list) )
 
-        
+
 def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     """Set TCP keepalive on an open socket.
 
@@ -767,6 +742,7 @@ def set_keepalive_linux(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, after_idle_sec)
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, interval_sec)
     sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, max_fails)
+
 
 def set_keepalive_osx(sock, after_idle_sec=1, interval_sec=3, max_fails=5):
     """Set TCP keepalive on an open socket.
@@ -790,7 +766,7 @@ def parse_connection_string(conn_str: str):
     return host, port, username, password
 
 
-def get_pykx_connection(client, clusterName: str, userName: str, boto_session, endpoint_url: str=None, environmentId:str=None, tls_enabled:bool=False):
+def get_pykx_connection(client, clusterName: str, userName: str, boto_session, environmentId:str=None, tls_enabled:bool=False):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 
@@ -798,14 +774,14 @@ def get_pykx_connection(client, clusterName: str, userName: str, boto_session, e
 
     conn_str = get_kx_connection_string(client, 
                                       environmentId=environmentId, clusterName=clusterName, userName=userName,
-                                      boto_session=boto_session, endpoint_url=endpoint_url)
+                                      boto_session=boto_session)
 
     host, port, username, password = parse_connection_string(conn_str)
-    
+
     return kx.SyncQConnection(host=host, port=port, username=username, password=password, tls=tls_enabled)
-        
+
     if (tls_enabled is False) and kx.licensed:
         set_keepalive_linux(handle._sock, after_idle_sec=300, interval_sec=60, max_fails=25)
-        
+
     return handle
 
