@@ -16,5 +16,5 @@ To clean up and delete all resources, run the [delete_all](delete_all.ipynb) not
 
 ### Other Files
 [finspace_torq.q](finspace_torq.q) q script that sets environment variables then calls torq.q   
-[clusters.py](clusters.py) list of dictionaries to aid in cluster create, includes wait type for dependencies   
+[config.py](config.py) configuration details of the application   
 [managed_kx.py](managed_kx.py) Utility functions atop boto3 APIs   
