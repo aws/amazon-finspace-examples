@@ -25,6 +25,9 @@ Examples all follow a common setup and each have a README file to expalin the ex
 ### [env.py](env.py)
 Sym linked to each example sub-directory, update this files with your specific environment information such as account ID, FinSpace environment ID, VPC ID, Security Sroup, availability zones. You will see these defined as empty strings from the repository.
 
+### [env.r](env.r)
+Sym linked to each example sub-directory, update this files with your specific environment information such as account ID, FinSpace environment ID, VPC ID, Security Sroup, availability zones. You will see these defined as empty strings from the repository.
+
 
 ### [managed_kx.py](managed_kx.py)
 Sym linked to each example sub-directory. Used by all examples to help simplify and enhance the basic boto functions used in the examples.

@@ -48,6 +48,9 @@ Displays all information about the given environment. Information includes datab
 [query_welcomedb](query_welcomedb.ipynb)
 q Notebook to demonstrate how to query the welcome database.
 
+[r_query_welcomedb](r_query_welcomedb.ipynb)
+R Notebook to demonstrate how to query the welcome database.
+
 [welcome](welcome.ipynb)
 Welcome notebook, demonstrates use of the Python AWS boto libraries to create the welcome datbase and a cluster to query it.
 
@@ -59,6 +62,12 @@ Python file meant to be used from the command line to generate a cluster's conne
 
 [managed_kx](managed_kx.py)
 Utility functions for the finspace service atop the AWS Python boto library.
+
+[env.py](env.py)
+Sym linked from parent directory, information about a specific environment to use in Python notebooks.
+
+[env.r](env.r)
+Sym linked from parent directory, information about a specific environment to use in R notebooks.
 
 ## q Code
 Example q files.
