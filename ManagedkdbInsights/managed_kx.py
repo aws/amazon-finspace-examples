@@ -359,7 +359,11 @@ def wait_for_cluster_status(client, environmentId:str, clusterName: str, status:
             continue
         else:
             if show_wait:
-                print(f"Cluster: {clusterName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+                if total_wait > 0:
+                    print(f"Cluster: {clusterName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+                else:
+                    print(f"Cluster: {clusterName} status is {this_status}")
+                    
             return this_cluster
 
     print(f"No Cluster after {datetime.timedelta(seconds=total_wait)}")
@@ -418,7 +422,10 @@ def wait_for_volume_status(client, environmentId:str, volumeName: str, status: s
             continue
         else:
             if show_wait:
-                print(f"Volume: {volumeName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+                if total_wait>0:
+                    print(f"Volume: {volumeName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+                else:
+                    print(f"Volume: {volumeName} status is {this_status}")
             return this_volume
 
     print(f"No Volume after {datetime.timedelta(seconds=total_wait)}")
@@ -479,7 +486,10 @@ def wait_for_scaling_group_status(client, environmentId:str, scalingGroupName: s
             continue
         else:
             if show_wait:
-                print(f"Scaling Group: {scalingGroupName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+                if total_wait > 0:
+                    print(f"Scaling Group: {scalingGroupName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+                else:
+                    print(f"Scaling Group: {scalingGroupName} status is {this_status}")
             return this_sg
 
     print(f"No Scaling Group after {datetime.timedelta(seconds=total_wait)}")
@@ -505,9 +515,11 @@ def wait_for_dataview_status(client, environmentId:str, databaseName: str, datav
         environmentId = get_kx_environment_id(client)
 
     """
-    Function polls until datavierw is in desired status
+    Function polls until dataview is in desired status
     """
     total_wait = 0
+
+    max_polls = max_wait_sec/sleep_sec
 
     while True and total_wait < max_wait_sec:
         this_resp = get_kx_dataview(client=client, environmentId = environmentId, databaseName=databaseName, dataviewName=dataviewName)
@@ -538,7 +550,10 @@ def wait_for_dataview_status(client, environmentId:str, databaseName: str, datav
             continue
         else:
             if show_wait:
-                print(f"Dataview: {dataviewName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+                if total_wait > 0:
+                    print(f"Dataview: {dataviewName} status is now {this_status}, total wait {datetime.timedelta(seconds=total_wait)}")
+                else:
+                    print(f"Dataview: {dataviewName} status is {this_status}")
             return this_resp
 
     print(f"No Dataview after {datetime.timedelta(seconds=total_wait)}")
@@ -694,7 +709,7 @@ def get_kx_database(client, environmentId:str, databaseName: str):
 
     return resp
 
-        
+
 def dump_database(client, databaseName:str, changset_details=False, environmentId:str=None):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
@@ -766,7 +781,7 @@ def parse_connection_string(conn_str: str):
     return host, port, username, password
 
 
-def get_pykx_connection(client, clusterName: str, userName: str, boto_session, environmentId:str=None, tls_enabled:bool=False):
+def get_pykx_connection(client, clusterName: str, userName: str, boto_session, environmentId:str=None, tls_enabled:bool=False, timeout:float=300.0):
     if environmentId is None:
         environmentId = get_kx_environment_id(client)
 
@@ -778,7 +793,7 @@ def get_pykx_connection(client, clusterName: str, userName: str, boto_session, e
 
     host, port, username, password = parse_connection_string(conn_str)
 
-    return kx.SyncQConnection(host=host, port=port, username=username, password=password, tls=tls_enabled)
+    return kx.SyncQConnection(host=host, port=port, username=username, password=password, tls=tls_enabled, timeout=timeout)
 
     if (tls_enabled is False) and kx.licensed:
         set_keepalive_linux(handle._sock, after_idle_sec=300, interval_sec=60, max_fails=25)
